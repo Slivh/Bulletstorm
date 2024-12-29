@@ -19,6 +19,8 @@ typedef struct Player {
 typedef struct Gun {
     int x, y;
     int side;
+    float timeSinceLastShot;
+    float timeBetweenShot;
 } Gun;
 
 typedef struct GunArray {    
@@ -31,7 +33,7 @@ typedef struct GunArray {
     float gunAreaSize;
     float gunFireRate;
     float gunFireRateDeviation;
-    float gunFireAngleDeviation;
+    int gunFireAngleDeviation;
     Gun *guns;
 } GunArray;
 
@@ -45,6 +47,8 @@ typedef struct BulletArray {
     Vector2 bulletSize;
     float bulletSpeed;
     Bullet *bullets;
+    int size;
+    int logicalSize;
 } BulletArray;
 
 typedef struct Arena {
@@ -93,6 +97,6 @@ Level LoadLevel(int levelNumber, Game *game);
 void CreateLevel();
 void LoadTextures(Level *level);
 void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime);
-void UpdateBullets(Arena *arena);
-void DrawBullets(Arena *arena);
+void UpdateBullets(BulletArray *bulletArray);
+void DrawBullets(BulletArray *bulletArray);
 #endif

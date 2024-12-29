@@ -15,7 +15,7 @@ void UpdatePlayer(Player *player, Arena *arena, float deltaTime) {
     if (IsKeyDown(KEY_DOWN) || IsKeyDown(KEY_S)) direction.y += 1;
 
     // slows down when on walls
-    Vector2 newPlayerPosition = Vector2Add((Vector2){player->hitbox.x, player->hitbox.y}, Vector2Scale(Vector2Normalize(direction), deltaTime*player->speed*arena->center.x));
+    Vector2 newPlayerPosition = Vector2Add((Vector2){player->hitbox.x, player->hitbox.y}, Vector2Scale(Vector2Normalize(direction), deltaTime*player->speed));
 
     newPlayerPosition.x = Clamp(newPlayerPosition.x, arena->center.x + player->hitbox.width/2, arena->center.x + arena->center.width - player->hitbox.width/2);
     newPlayerPosition.y = Clamp(newPlayerPosition.y, arena->center.y + player->hitbox.height/2, arena->center.y + arena->center.height - player->hitbox.height/2);

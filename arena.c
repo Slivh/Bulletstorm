@@ -10,5 +10,5 @@ void DrawArena(Arena *arena, int gameSize) {
         0, 
         WHITE
     );
-    DrawRectangleLinesEx(arena->center, 2.0f, GREEN);
+    // DrawRectangleLinesEx(arena->center, 2.0f, GREEN);
 }

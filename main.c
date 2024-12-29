@@ -26,7 +26,9 @@ int main() {
     game.camera.zoom = 1.0f;  
 
     CreateLevel();
+    
     game.level = LoadLevel(3, &game);
+
     LoadTextures(&game.level);
 
     SetTargetFPS(GetMonitorRefreshRate(GetCurrentMonitor()));
@@ -39,7 +41,7 @@ int main() {
 
         ShootGuns(&game.level.arena.gunArray, &game.level.arena.bulletArray, deltaTime);
 
-        UpdateBullets(&game.level.arena);
+        UpdateBullets(&game.level.arena.bulletArray);
 
         BeginDrawing();
         BeginMode2D(game.camera);
@@ -49,7 +51,7 @@ int main() {
 
             DrawPlayer(&game.level.player);
 
-            DrawBullets(&game.level.arena);
+            DrawBullets(&game.level.arena.bulletArray);
 
             DrawGuns(&game.level.arena.gunArray);
             

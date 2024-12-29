@@ -12,35 +12,6 @@ void SaveLevel(int levelNumber, Level *level) {
     fclose(file);
 }
 
-void CreateGuns(GunArray *gunArray, int arenaCenterSize) {
-    gunArray->guns = (Gun*)malloc(gunArray->numberOfGunsPerSide*4 * sizeof(Gun));
-
-    int x, y, gunSide;
-    
-    for (int side=0; side<4; side++) {
-        for (int i=0; i<gunArray->numberOfGunsPerSide; i++) {
-            if (side == 0) {
-                gunSide = LEFT;
-                x = gunArray->gunAreaSize/2 + gunArray->gunOffset*gunArray->gunAreaSize;
-                y = gunArray->gunAreaSize + (i+1)*(arenaCenterSize/(gunArray->numberOfGunsPerSide+1));
-            } else if (side == 1) {
-                gunSide = RIGHT;
-                x = gunArray->gunAreaSize*1.5f + arenaCenterSize - gunArray->gunOffset*gunArray->gunAreaSize;
-                y = gunArray->gunAreaSize + (i+1)*(arenaCenterSize/(gunArray->numberOfGunsPerSide+1));
-            } else if (side == 2) {
-                gunSide = TOP;
-                x = gunArray->gunAreaSize + (i+1)*(arenaCenterSize/(gunArray->numberOfGunsPerSide+1));
-                y = gunArray->gunAreaSize/2 + gunArray->gunOffset*gunArray->gunAreaSize;
-            } else {
-                gunSide = BOTTOM;
-                x = gunArray->gunAreaSize + (i+1)*(arenaCenterSize/(gunArray->numberOfGunsPerSide+1));
-                y = gunArray->gunAreaSize*1.5f + arenaCenterSize - gunArray->gunOffset*gunArray->gunAreaSize;
-            }
-            
-            gunArray->guns[side*gunArray->numberOfGunsPerSide + i] = (Gun){x, y, gunSide};
-        }
-    }
-}
 
 Level LoadLevel(int levelNumber, Game *game) {
     Level level;
@@ -58,8 +29,9 @@ Level LoadLevel(int levelNumber, Game *game) {
         level.arena.gunArray.gunAreaSize, 
         game->size - 2*level.arena.gunArray.gunAreaSize, 
         game->size - 2*level.arena.gunArray.gunAreaSize
-        };
+    };
 
+    level.player.speed *= game->size;
     level.player.hitbox.x = game->size/2;
     level.player.hitbox.y = game->size/2;
 
@@ -69,6 +41,7 @@ Level LoadLevel(int levelNumber, Game *game) {
     CreateGuns(&level.arena.gunArray, level.arena.center.width);
 
     level.arena.bulletArray.bullets = (Bullet*)malloc(0);
-
+    level.arena.bulletArray.bulletSpeed *= game->size;
+    
     return level;
 }
