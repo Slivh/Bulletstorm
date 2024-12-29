@@ -25,7 +25,7 @@ int main() {
     game.camera.offset = (Vector2){game.offsetX, game.offsetY};
     game.camera.zoom = 1.0f;  
 
-    CreateLevel();
+    CreateLevel(3);
     
     game.level = LoadLevel(3, &game);
 

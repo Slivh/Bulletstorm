@@ -30,10 +30,10 @@ void CreateGuns(GunArray *gunArray, int arenaCenterSize) {
                 y = gunArray->gunAreaSize*1.5f + arenaCenterSize - gunArray->gunOffset*gunArray->gunAreaSize;
             }
             
-            int timeBetweenShot = GetRandomValue(gunArray->gunFireRate - gunArray->gunFireRateDeviation, gunArray->gunFireRate + gunArray->gunFireRateDeviation);
+            int timeBetweenShot = GetRandomValue(gunArray->gunFireDelay - gunArray->gunFireDelayDeviation, gunArray->gunFireDelay + gunArray->gunFireDelayDeviation);
 
             // add random delay before 1st shot
-            float delay = GetRandomValue(100, 1000) / 1000;
+            float delay = (float)GetRandomValue(100, 1000) / 1000;
 
             gunArray->guns[side*gunArray->numberOfGunsPerSide + i] = (Gun){x, y, gunSide, delay, timeBetweenShot};
         }
@@ -90,7 +90,7 @@ void DrawGuns(GunArray *gunArray) {
 void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime) {
     for (int i=0; i<gunArray->numberOfGunsPerSide*4; i++) {
         if (gunArray->guns[i].timeSinceLastShot >= gunArray->guns[i].timeBetweenShot) {
-            
+            printf("%f\n", gunArray->guns[i].timeBetweenShot);
             // realloc array if needed
             if (bulletArray->size == bulletArray->logicalSize) {
                 bulletArray->bullets = realloc(bulletArray->bullets, sizeof(Bullet)*(bulletArray->size+1));
@@ -108,10 +108,10 @@ void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime) {
                     bulletAngle = 180;
                     break;
                 case TOP: 
-                    bulletAngle = 270;
+                    bulletAngle = 90;
                     break;
                 case BOTTOM: 
-                    bulletAngle = 90;
+                    bulletAngle = 270;
                     break;
             }
 
@@ -119,17 +119,23 @@ void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime) {
 
             Vector2 bulletDirection = {1, 0};
 
-            bulletDirection = Vector2Rotate(bulletDirection, bulletAngle);
+            float bulletAngleRadians = bulletAngle * (PI / 180.0);
+
+            bulletDirection = Vector2Rotate(bulletDirection, bulletAngleRadians);
+
             bulletDirection = Vector2Scale(bulletDirection, deltaTime*bulletArray->bulletSpeed);
-            
+
+
             bulletArray->bullets[bulletArray->logicalSize] = (Bullet){bulletHitbox, bulletDirection};
+
+
             bulletArray->logicalSize++;
 
             gunArray->guns[i].timeSinceLastShot = 0.0f;
 
-            float minRate = (gunArray->gunFireRate - gunArray->gunFireRateDeviation) * 1000;
-            float maxRate = (gunArray->gunFireRate + gunArray->gunFireRateDeviation) * 1000;
-            float randomFireRate = GetRandomValue(minRate, maxRate) / 1000.0f;
+            float minRate = (gunArray->gunFireDelay - gunArray->gunFireDelayDeviation) * 1000;
+            float maxRate = (gunArray->gunFireDelay + gunArray->gunFireDelayDeviation) * 1000;
+            float randomFireRate = (float)GetRandomValue(minRate, maxRate) / 1000.0f;
 
             gunArray->guns[i].timeBetweenShot = randomFireRate;
         } else {

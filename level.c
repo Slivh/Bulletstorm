@@ -23,7 +23,6 @@ Level LoadLevel(int levelNumber, Game *game) {
     fclose(file);
 
     level.arena.gunArray.gunAreaSize *= (float)game->size;
-
     level.arena.center = (Rectangle){
         level.arena.gunArray.gunAreaSize, 
         level.arena.gunArray.gunAreaSize, 
@@ -42,6 +41,6 @@ Level LoadLevel(int levelNumber, Game *game) {
 
     level.arena.bulletArray.bullets = (Bullet*)malloc(0);
     level.arena.bulletArray.bulletSpeed *= game->size;
-    
+
     return level;
 }
