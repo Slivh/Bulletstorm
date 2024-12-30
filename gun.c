@@ -33,7 +33,7 @@ void CreateGuns(GunArray *gunArray, int arenaCenterSize) {
             int timeBetweenShot = GetRandomValue(gunArray->gunFireDelay - gunArray->gunFireDelayDeviation, gunArray->gunFireDelay + gunArray->gunFireDelayDeviation);
 
             // add random delay before 1st shot
-            float delay = (float)GetRandomValue(100, 1000) / 1000;
+            float delay = (float)GetRandomValue(0, 500) / 1000;
 
             gunArray->guns[side*gunArray->numberOfGunsPerSide + i] = (Gun){x, y, gunSide, delay, timeBetweenShot};
         }
@@ -98,9 +98,9 @@ void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime) {
 
             int bulletX = gunArray->guns[i].x;
             int bulletY = gunArray->guns[i].y;
-            Rectangle bulletHitbox = {bulletX, bulletY, bulletArray->bulletSize.x, bulletArray->bulletSize.y};
+            Rectangle bulletHitbox = {bulletX - bulletArray->bulletSize.x/2, bulletY - bulletArray->bulletSize.y/2  , bulletArray->bulletSize.x, bulletArray->bulletSize.y};
 
-            int bulletAngle = 0;
+            float bulletAngle = 0;
 
             switch (gunArray->guns[i].side) {                    
                 case RIGHT: 
@@ -122,10 +122,10 @@ void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime) {
 
             bulletDirection = Vector2Rotate(bulletDirection, bulletAngleRadians);
 
-            bulletDirection = Vector2Scale(bulletDirection, deltaTime*bulletArray->bulletSpeed);
+            bulletDirection = Vector2Scale(bulletDirection, bulletArray->bulletSpeed);
 
 
-            bulletArray->bullets[bulletArray->logicalSize] = (Bullet){bulletHitbox, bulletDirection, bulletAngleRadians};
+            bulletArray->bullets[bulletArray->logicalSize] = (Bullet){bulletHitbox, bulletDirection, bulletAngleRadians, false};
 
 
             bulletArray->logicalSize++;
@@ -143,10 +143,19 @@ void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime) {
     }
 }
 
-void UpdateBullets(BulletArray *bulletArray) {
+void UpdateBullets(BulletArray *bulletArray, Rectangle arenaCenter, float deltaTime) {
     for (int i=0; i<bulletArray->logicalSize; i++) {
-        bulletArray->bullets[i].hitbox.x += bulletArray->bullets[i].direction.x;
-        bulletArray->bullets[i].hitbox.y += bulletArray->bullets[i].direction.y;
+        bulletArray->bullets[i].hitbox.x += bulletArray->bullets[i].direction.x*deltaTime;
+        bulletArray->bullets[i].hitbox.y += bulletArray->bullets[i].direction.y*deltaTime;
+        if (!CheckCollisionRecs(bulletArray->bullets[i].hitbox, arenaCenter)) {
+            if (bulletArray->bullets[i].reachedCenter) {
+                bulletArray->bullets[i] = bulletArray->bullets[bulletArray->logicalSize - 1];
+                bulletArray->logicalSize--;
+                i--;
+            }
+        } else {
+            bulletArray->bullets[i].reachedCenter = true;
+        }
     }
 }
 
@@ -154,10 +163,16 @@ void DrawBullets(BulletArray *bulletArray) {
     for (int i=0; i<bulletArray->logicalSize; i++) {
         
         // DrawRectangleRec(bulletArray->bullets[i].hitbox, RED);
+
         DrawTexturePro(
             bulletArray->bulletTexture,
             (Rectangle){0, 0, bulletArray->bulletTexture.width, bulletArray->bulletTexture.height},
-            bulletArray->bullets[i].hitbox,
+            (Rectangle){
+                bulletArray->bullets[i].hitbox.x + bulletArray->bullets[i].hitbox.width/2,
+                bulletArray->bullets[i].hitbox.y + bulletArray->bullets[i].hitbox.height/2,
+                bulletArray->bullets[i].hitbox.width,
+                bulletArray->bullets[i].hitbox.height
+            },
             (Vector2){bulletArray->bullets[i].hitbox.width/2, bulletArray->bullets[i].hitbox.height/2},
             bulletArray->bullets[i].angle * (180.0f / PI),
             WHITE

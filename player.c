@@ -27,7 +27,7 @@ void DrawPlayer(Player *player) {
         playerColor = WHITE;
     }
 
-    DrawRectangle(player->hitbox.x - player->hitbox.width/2, player->hitbox.y - player->hitbox.height/2, player->hitbox.width, player->hitbox.height, playerColor);
+    DrawRectangle(player->hitbox.x, player->hitbox.y, player->hitbox.width, player->hitbox.height, playerColor);
 }
 
 void UpdatePlayer(Player *player, Arena *arena, float deltaTime) {

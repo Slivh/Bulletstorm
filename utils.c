@@ -6,26 +6,34 @@
 #include "raymath.h"
 #include "game.h"
 
+void GetRotatedRecCorners(Vector2 *corners, Rectangle rec, float angle) {
+    // Calculate the center of the rectangle
+    float cx = rec.x + rec.width / 2;
+    float cy = rec.y + rec.height / 2;
 
-void GetRotatedRecCorners(Vector2 *corners, Rectangle rec, int angle) {
+    // Calculate the corners relative to the center
+    float halfWidth = rec.width / 2;
+    float halfHeight = rec.height / 2;
 
-    float cx = rec.x + rec.width/2;
-    float cy = rec.y - rec.height/2;
+    float cosTheta = cos(angle);
+    float sinTheta = sin(angle);
 
-    corners[0].x = cx + ((rec.width / 2) * cos(angle)) - ((rec.height / 2) * sin(angle));
-    corners[0].y = cy + ((rec.width / 2) * sin(angle)) + ((rec.height / 2) * cos(angle));
+    // Top-right corner
+    corners[0].x = cx + (halfWidth * cosTheta) - (halfHeight * sinTheta);
+    corners[0].y = cy + (halfWidth * sinTheta) + (halfHeight * cosTheta);
 
-    corners[1].x = cx - ((rec.width / 2) * cos(angle)) - ((rec.height / 2) * sin(angle));
-    corners[1].y = cy - ((rec.width / 2) * sin(angle)) + ((rec.height / 2) * cos(angle));
+    // Top-left corner
+    corners[1].x = cx - (halfWidth * cosTheta) - (halfHeight * sinTheta);
+    corners[1].y = cy - (halfWidth * sinTheta) + (halfHeight * cosTheta);
 
-    corners[2].x = cx - ((rec.width / 2) * cos(angle)) + ((rec.height / 2) * sin(angle));
-    corners[2].y = cy - ((rec.width / 2) * sin(angle)) - ((rec.height / 2) * cos(angle));
+    // Bottom-left corner
+    corners[2].x = cx - (halfWidth * cosTheta) + (halfHeight * sinTheta);
+    corners[2].y = cy - (halfWidth * sinTheta) - (halfHeight * cosTheta);
 
-    corners[3].x = cx + ((rec.width / 2) * cos(angle)) + ((rec.height / 2) * sin(angle));
-    corners[3].y = cy + ((rec.width / 2) * sin(angle)) - ((rec.height / 2) * cos(angle));
-
+    // Bottom-right corner
+    corners[3].x = cx + (halfWidth * cosTheta) + (halfHeight * sinTheta);
+    corners[3].y = cy + (halfWidth * sinTheta) - (halfHeight * cosTheta);
 }
-
 
 Vector2 vectorPerpendicular(Vector2 v) {
     return (Vector2){-v.y, v.x};
@@ -72,7 +80,7 @@ bool checkCollision(Polygon a, Polygon b) {
     return true;
 }
 
-bool CheckCollisionRotatedRecs(Rectangle rectangle1, int angle1, Rectangle rectangle2, int angle2) {
+bool CheckCollisionRotatedRecs(Rectangle rectangle1, float angle1, Rectangle rectangle2, float angle2) {
 
     Vector2 polygon1Vertices[4];
     Vector2 polygon2Vertices[4];

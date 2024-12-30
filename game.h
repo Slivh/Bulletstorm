@@ -15,6 +15,7 @@ typedef struct Player {
     float invulnerability;
     Rectangle hitbox;
     Texture2D playerTexture;
+    float timeSinceDeath;
 } Player;
 
 typedef struct Gun {
@@ -42,6 +43,7 @@ typedef struct Bullet {
     Rectangle hitbox;
     Vector2 direction;
     float angle;
+    bool reachedCenter;
 } Bullet;
 
 typedef struct BulletArray {
@@ -72,6 +74,7 @@ typedef struct Level {
     Arena arena;
     Player player;
     Textures textures;
+    Font alagard;
 } Level;
 
 typedef struct Game {
@@ -85,12 +88,10 @@ typedef struct Game {
     Level level;
 } Game;
 
-typedef struct {
+typedef struct Polygon {
     Vector2 *vertices;
     int vertexCount;
 } Polygon;
-
-
 
 void CreateGuns(GunArray *gunArray, int arenaCenterSize);
 void DrawArena(Arena *arena, int gameSize);
@@ -102,8 +103,9 @@ Level LoadLevel(int levelNumber, Game *game);
 void CreateLevel(int levelNumber);
 void LoadTextures(Level *level);
 void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime);
-void UpdateBullets(BulletArray *bulletArray);
+void UpdateBullets(BulletArray *bulletArray, Rectangle arenaCenter, float deltaTime);
 void DrawBullets(BulletArray *bulletArray);
-void GetRotatedRecCorners(Vector2 *corners, Rectangle rec, int angle);
-bool CheckCollisionRotatedRecs(Rectangle rectangle1, int angle1, Rectangle rectangle2, int angle2);
+void GetRotatedRecCorners(Vector2 *corners, Rectangle rec, float angle);
+bool CheckCollisionRotatedRecs(Rectangle rectangle1, float angle1, Rectangle rectangle2, float angle2);
+void DrawTitleScreen();
 #endif

@@ -1,15 +1,16 @@
 #include "raylib.h"
 #include "game.h"
+#include <stdio.h>
 
 #define PLAYER_SPEED 3.0f
 
 int main() {
     Game game;
 
-    game.windowWidth = 1600;
+    game.windowWidth = 1400;
     game.windowHeight = 1400;
     
-    InitWindow(game.windowWidth, game.windowHeight, "very good game");
+    InitWindow(game.windowWidth, game.windowHeight, "Bulletstorm");
     
     if (game.windowWidth < game.windowHeight) {
         game.size = game.windowWidth;
@@ -34,14 +35,16 @@ int main() {
     SetTargetFPS(GetMonitorRefreshRate(GetCurrentMonitor()));
 
     while (!WindowShouldClose()) {
-
+        
         float deltaTime = GetFrameTime();
 
-        UpdatePlayer(&game.level.player, &game.level.arena, deltaTime);
+        if (game.level.player.lives > 0) {
+            UpdatePlayer(&game.level.player, &game.level.arena, deltaTime);
 
-        ShootGuns(&game.level.arena.gunArray, &game.level.arena.bulletArray, deltaTime);
+            ShootGuns(&game.level.arena.gunArray, &game.level.arena.bulletArray, deltaTime);
 
-        UpdateBullets(&game.level.arena.bulletArray);
+            UpdateBullets(&game.level.arena.bulletArray, game.level.arena.center, deltaTime);
+        }
 
         BeginDrawing();
         BeginMode2D(game.camera);
@@ -57,10 +60,25 @@ int main() {
             
             DrawText(TextFormat("CURRENT FPS: %i", (int)(1.0f/deltaTime)), 0, 0, 40, RED);
 
+            if (game.level.player.lives <= 0) {
+
+                game.level.player.timeSinceDeath += deltaTime;
+
+                if (game.level.player.timeSinceDeath < 5) {
+
+                    Vector2 textSize = MeasureTextEx(game.level.alagard, "YOU DIED", 0.15f*(float)game.size, 5);
+                    Vector2 textPosition = {game.size/2 - textSize.x/2, game.size/2 - textSize.y/2};
+                    DrawRectangle(0, textPosition.y-0.2f*textSize.y, game.size, textSize.y*1.4f, (Color){0, 0, 0, 192});
+                    DrawTextEx(game.level.alagard, "YOU DIED", textPosition, 0.15f*(float)game.size, 5, (Color){126, 0, 7, 255});
+                    
+                } else {
+
+                }
+                
+            }
         EndScissorMode();
         EndMode2D();
         EndDrawing();
-
     }
     CloseWindow();
 

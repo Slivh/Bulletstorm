@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "game.h"
 #include "stdlib.h"
+#include "raymath.h"
+
 void SaveLevel(int levelNumber, Level *level) {    
 
     char filename[32];
@@ -31,12 +33,14 @@ Level LoadLevel(int levelNumber, Game *game) {
     };
 
     level.player.speed *= game->size;
-    level.player.hitbox.x = game->size/2;
-    level.player.hitbox.y = game->size/2;
-
     level.player.hitbox.width *= (float)game->size;
     level.player.hitbox.height *= (float)game->size;
+    level.player.hitbox.x = game->size/2 - level.player.hitbox.width/2;
+    level.player.hitbox.y = game->size/2 - level.player.hitbox.height/2;
+
         
+    level.arena.bulletArray.bulletSize = Vector2Scale(level.arena.bulletArray.bulletSize, game->size);
+
     CreateGuns(&level.arena.gunArray, level.arena.center.width);
 
     level.arena.bulletArray.bullets = (Bullet*)malloc(0);
