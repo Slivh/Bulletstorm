@@ -46,7 +46,7 @@ int main() {
         BeginDrawing();
         BeginMode2D(game.camera);
         BeginScissorMode(game.offsetX, game.offsetY, game.size, game.size);
-            
+
             DrawArena(&game.level.arena, game.size);
 
             DrawPlayer(&game.level.player);
@@ -55,6 +55,8 @@ int main() {
 
             DrawGuns(&game.level.arena.gunArray);
             
+            DrawText(TextFormat("CURRENT FPS: %i", (int)(1.0f/deltaTime)), 0, 0, 40, RED);
+
         EndScissorMode();
         EndMode2D();
         EndDrawing();

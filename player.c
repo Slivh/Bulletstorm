@@ -3,7 +3,31 @@
 #include "game.h"
 
 void DrawPlayer(Player *player) {
-    DrawRectangle(player->hitbox.x - player->hitbox.width/2, player->hitbox.y - player->hitbox.height/2, player->hitbox.width, player->hitbox.height, GREEN);
+
+    Color playerColor;
+
+    switch (player->lives) {
+    case 3:
+        playerColor = GREEN;
+        break;
+    
+    case 2:
+        playerColor = YELLOW;
+        break;
+
+    case 1:
+        playerColor = RED;
+        break;
+
+    case 0:
+        playerColor = BLACK;
+        break;
+
+    default:
+        playerColor = WHITE;
+    }
+
+    DrawRectangle(player->hitbox.x - player->hitbox.width/2, player->hitbox.y - player->hitbox.height/2, player->hitbox.width, player->hitbox.height, playerColor);
 }
 
 void UpdatePlayer(Player *player, Arena *arena, float deltaTime) {
@@ -21,4 +45,19 @@ void UpdatePlayer(Player *player, Arena *arena, float deltaTime) {
     newPlayerPosition.y = Clamp(newPlayerPosition.y, arena->center.y + player->hitbox.height/2, arena->center.y + arena->center.height - player->hitbox.height/2);
 
     player->hitbox = (Rectangle){newPlayerPosition.x, newPlayerPosition.y, player->hitbox.width, player->hitbox.height};
+
+    if (player->invulnerability > 0) {
+        player->invulnerability -= deltaTime;
+        if (player->invulnerability < 0) {
+            player->invulnerability = 0;
+        }
+    }
+    
+    for (int i=0; i<arena->bulletArray.logicalSize; i++) {
+        if (CheckCollisionRotatedRecs(player->hitbox, 0, arena->bulletArray.bullets[i].hitbox, arena->bulletArray.bullets[i].angle) && player->invulnerability == 0) {
+            player->lives -= 1;
+            player->invulnerability = 2;
+        }
+    }
+    
 }

@@ -12,6 +12,7 @@ enum Side {
 typedef struct Player {
     int lives;
     float speed;
+    float invulnerability;
     Rectangle hitbox;
     Texture2D playerTexture;
 } Player;
@@ -40,6 +41,7 @@ typedef struct GunArray {
 typedef struct Bullet {
     Rectangle hitbox;
     Vector2 direction;
+    float angle;
 } Bullet;
 
 typedef struct BulletArray {
@@ -83,7 +85,10 @@ typedef struct Game {
     Level level;
 } Game;
 
-
+typedef struct {
+    Vector2 *vertices;
+    int vertexCount;
+} Polygon;
 
 
 
@@ -99,4 +104,6 @@ void LoadTextures(Level *level);
 void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime);
 void UpdateBullets(BulletArray *bulletArray);
 void DrawBullets(BulletArray *bulletArray);
+void GetRotatedRecCorners(Vector2 *corners, Rectangle rec, int angle);
+bool CheckCollisionRotatedRecs(Rectangle rectangle1, int angle1, Rectangle rectangle2, int angle2);
 #endif

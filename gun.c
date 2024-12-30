@@ -74,7 +74,6 @@ void DrawGuns(GunArray *gunArray) {
             flipY = 1;
             rotation = 0.0f;
         }
-
         DrawTexturePro(
             gunArray->gunTexture,
             (Rectangle) {0, 0, flipY*gunArray->gunTexture.width, gunArray->gunTexture.height}, 
@@ -90,7 +89,7 @@ void DrawGuns(GunArray *gunArray) {
 void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime) {
     for (int i=0; i<gunArray->numberOfGunsPerSide*4; i++) {
         if (gunArray->guns[i].timeSinceLastShot >= gunArray->guns[i].timeBetweenShot) {
-            printf("%f\n", gunArray->guns[i].timeBetweenShot);
+
             // realloc array if needed
             if (bulletArray->size == bulletArray->logicalSize) {
                 bulletArray->bullets = realloc(bulletArray->bullets, sizeof(Bullet)*(bulletArray->size+1));
@@ -126,7 +125,7 @@ void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime) {
             bulletDirection = Vector2Scale(bulletDirection, deltaTime*bulletArray->bulletSpeed);
 
 
-            bulletArray->bullets[bulletArray->logicalSize] = (Bullet){bulletHitbox, bulletDirection};
+            bulletArray->bullets[bulletArray->logicalSize] = (Bullet){bulletHitbox, bulletDirection, bulletAngleRadians};
 
 
             bulletArray->logicalSize++;
@@ -153,6 +152,15 @@ void UpdateBullets(BulletArray *bulletArray) {
 
 void DrawBullets(BulletArray *bulletArray) {
     for (int i=0; i<bulletArray->logicalSize; i++) {
-        DrawRectangleRec(bulletArray->bullets[i].hitbox, RED);
+        
+        // DrawRectangleRec(bulletArray->bullets[i].hitbox, RED);
+        DrawTexturePro(
+            bulletArray->bulletTexture,
+            (Rectangle){0, 0, bulletArray->bulletTexture.width, bulletArray->bulletTexture.height},
+            bulletArray->bullets[i].hitbox,
+            (Vector2){bulletArray->bullets[i].hitbox.width/2, bulletArray->bullets[i].hitbox.height/2},
+            bulletArray->bullets[i].angle * (180.0f / PI),
+            WHITE
+        );
     }
 }
