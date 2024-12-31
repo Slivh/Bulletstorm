@@ -38,7 +38,13 @@ Level LoadLevel(int levelNumber, Game *game) {
     level.player.hitbox.x = game->size/2 - level.player.hitbox.width/2;
     level.player.hitbox.y = game->size/2 - level.player.hitbox.height/2;
 
-        
+    level.player.textureOffset = Vector2Scale(level.player.textureOffset, game->size);
+
+    level.player.textureRec.width *= (float)game->size;
+    level.player.textureRec.height *= (float)game->size;
+    level.player.textureRec.x = level.player.hitbox.x + level.player.textureOffset.x;
+    level.player.textureRec.y = level.player.hitbox.y + level.player.textureOffset.y;
+
     level.arena.bulletArray.bulletSize = Vector2Scale(level.arena.bulletArray.bulletSize, game->size);
 
     CreateGuns(&level.arena.gunArray, level.arena.center.width);
@@ -46,5 +52,8 @@ Level LoadLevel(int levelNumber, Game *game) {
     level.arena.bulletArray.bullets = (Bullet*)malloc(0);
     level.arena.bulletArray.bulletSpeed *= game->size;
 
+    level.arena.explosionArray.explosionSize = Vector2Scale(level.arena.explosionArray.explosionSize, game->size);
+    level.arena.explosionArray.explosions = (Explosion*)malloc(0);
+    
     return level;
 }

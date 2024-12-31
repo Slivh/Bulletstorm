@@ -5,7 +5,7 @@
 void CreateLevel(int levelNumber) {
     Level level;
 
-    strcpy(level.textures.backgroundTexturePath, "resources/textures/arena/maps/winter.png");
+    strcpy(level.textures.backgroundTexturePath, "resources/textures/arena/maps/autumn.png");
 
     level.timer = 0;
     
@@ -26,13 +26,26 @@ void CreateLevel(int levelNumber) {
     level.arena.bulletArray.logicalSize = 0;
     strcpy(level.textures.bulletTexturePath, "resources/textures/arena/guns/fireball.png");
 
+    level.arena.explosionArray.animationSpeed = 0.2f;
+    level.arena.explosionArray.explosionSize = (Vector2){0.025f, 0.025f};
+    level.arena.explosionArray.size = 0;
+    level.arena.explosionArray.logicalSize = 0;
+    strcpy(level.textures.explosionTexturePath, "resources/textures/arena/guns/explosion.png");
+
+
 
     level.player.lives = 3;
     level.player.invulnerability = 0;
-    level.player.hitbox = (Rectangle){0, 0, 0.04f, 0.04f};
+    level.player.hitbox = (Rectangle){0, 0, 0.032, 0.048f};
+    level.player.currentFrame = 0;
+    level.player.timeSinceLastUpdate = 0;
+    level.player.animationSpeed = 0.1f;
+    level.player.textureOffset = (Vector2){-0.009f, -0.012f};
+    level.player.textureRec = (Rectangle){0, 0, 0.048f, 0.072f};
     level.player.speed = 0.4f;
     level.player.timeSinceDeath = 0;
-    strcpy(level.textures.playerTexturePath, "resources/textures/arena/player/player.png");
+    level.player.color = WHITE;
+    strcpy(level.textures.playerTexturePath, "resources/textures/player/orange.png");
     
     SaveLevel(levelNumber, &level);
 }   

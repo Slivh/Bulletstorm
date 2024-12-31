@@ -46,6 +46,8 @@ int main() {
             UpdateBullets(&game.level.arena.bulletArray, game.level.arena.center, deltaTime);
         }
 
+        UpdateExplosions(&game.level.arena.explosionArray, deltaTime);
+
         BeginDrawing();
         BeginMode2D(game.camera);
         BeginScissorMode(game.offsetX, game.offsetY, game.size, game.size);
@@ -58,6 +60,7 @@ int main() {
 
             DrawGuns(&game.level.arena.gunArray);
             
+            DrawExplosions(&game.level.arena.explosionArray);
             // DrawText(TextFormat("CURRENT FPS: %i", (int)(1.0f/deltaTime)), 0, 0, 40, RED);
 
             if (game.level.player.lives <= 0) {

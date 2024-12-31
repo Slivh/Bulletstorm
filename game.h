@@ -2,6 +2,17 @@
 #define GAME_H
 #include "raylib.h"
 
+enum Direction {
+    NORTH = 0,
+    NORTH_EAST = 16,
+    EAST = 32,
+    SOUTH_EAST = 48,
+    SOUTH = 64,
+    SOUTH_WEST = 80,
+    WEST = 96,
+    NORTH_WEST = 112
+};
+
 enum Side {
     LEFT,
     RIGHT,
@@ -13,10 +24,33 @@ typedef struct Player {
     int lives;
     float speed;
     float invulnerability;
+    int direction; 
     Rectangle hitbox;
     Texture2D playerTexture;
     float timeSinceDeath;
+    float animationSpeed;
+    float timeSinceLastUpdate;
+    int currentFrame;
+    Color color;
+    Rectangle textureRec;
+    Vector2 textureOffset;
 } Player;
+
+typedef struct Explosion {
+    Rectangle hitbox;
+    float timeSinceLastUpdate;
+    int currentFrame;
+
+} Explosion;
+
+typedef struct ExplosionArray {
+    Texture2D explosionTexture;
+    Vector2 explosionSize;
+    float animationSpeed;
+    Explosion *explosions;
+    int size;
+    int logicalSize;
+} ExplosionArray;
 
 typedef struct Gun {
     int x, y;
@@ -60,6 +94,7 @@ typedef struct Arena {
     Rectangle center;
     GunArray gunArray;
     BulletArray bulletArray;
+    ExplosionArray explosionArray;
 } Arena;
 
 typedef struct Textures {
@@ -67,6 +102,7 @@ typedef struct Textures {
     char backgroundTexturePath[64];
     char playerTexturePath[64];
     char bulletTexturePath[64];
+    char explosionTexturePath[64];
 } Textures;
 
 typedef struct Level {
@@ -109,4 +145,7 @@ void DrawBullets(BulletArray *bulletArray);
 void GetRotatedRecCorners(Vector2 *corners, Rectangle rec, float angle);
 bool CheckCollisionRotatedRecs(Rectangle rectangle1, float angle1, Rectangle rectangle2, float angle2);
 void DrawTitleScreen();
+void DrawExplosions(ExplosionArray *explosionArray);
+void UpdateExplosions(ExplosionArray *explosionArray, float deltaTime);
+
 #endif

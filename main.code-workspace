@@ -6,11 +6,13 @@
 	],
 	"settings": {
 		"files.associations": {
+			"*.ejs": "html",
 			"raylib.h": "c",
 			"math.h": "c",
 			"blocks.h": "c",
 			"stdio.h": "c",
-			"*.m": "c"
+			"*.m": "c",
+			"stdlib.h": "c"
 		}
 	}
 }
