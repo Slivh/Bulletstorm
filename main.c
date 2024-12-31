@@ -58,7 +58,7 @@ int main() {
 
             DrawGuns(&game.level.arena.gunArray);
             
-            DrawText(TextFormat("CURRENT FPS: %i", (int)(1.0f/deltaTime)), 0, 0, 40, RED);
+            // DrawText(TextFormat("CURRENT FPS: %i", (int)(1.0f/deltaTime)), 0, 0, 40, RED);
 
             if (game.level.player.lives <= 0) {
 
@@ -66,16 +66,20 @@ int main() {
 
                 if (game.level.player.timeSinceDeath < 5) {
 
-                    Vector2 textSize = MeasureTextEx(game.level.alagard, "YOU DIED", 0.15f*(float)game.size, 5);
+                    Vector2 textSize = MeasureTextEx(game.level.font, "SKILL ISSUE", 0.15f*(float)game.size, 5);
                     Vector2 textPosition = {game.size/2 - textSize.x/2, game.size/2 - textSize.y/2};
-                    DrawRectangle(0, textPosition.y-0.2f*textSize.y, game.size, textSize.y*1.4f, (Color){0, 0, 0, 192});
-                    DrawTextEx(game.level.alagard, "YOU DIED", textPosition, 0.15f*(float)game.size, 5, (Color){126, 0, 7, 255});
-                    
+                    DrawRectangle(0, textPosition.y-0.2f*textSize.y, game.size, textSize.y*1.4f, (Color){0, 0, 0, 128});
+                    DrawTextEx(game.level.font, "SKILL ISSUE", textPosition, 0.15f*(float)game.size, 5, (Color){126, 0, 7, 255});
                 } else {
-
+                    
                 }
                 
+            } else {
+                game.level.timer += deltaTime;
             }
+
+            DrawText(TextFormat("timer: %.2fs", game.level.timer), 20, 50, 40, RED);
+
         EndScissorMode();
         EndMode2D();
         EndDrawing();

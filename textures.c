@@ -6,6 +6,6 @@ void LoadTextures(Level *level) {
     level->arena.gunArray.gunTexture = LoadTexture(level->textures.gunTexturePath);
     level->player.playerTexture = LoadTexture(level->textures.gunTexturePath);
     level->arena.bulletArray.bulletTexture = LoadTexture(level->textures.bulletTexturePath);
-    level->alagard = LoadFont("resources/alagard.png");
+    level->font = LoadFont("resources/fonts/alagard.png");
 }
 

@@ -63,10 +63,10 @@ typedef struct Arena {
 } Arena;
 
 typedef struct Textures {
-    char gunTexturePath[32];
-    char backgroundTexturePath[32];
-    char playerTexturePath[32];
-    char bulletTexturePath[32];
+    char gunTexturePath[64];
+    char backgroundTexturePath[64];
+    char playerTexturePath[64];
+    char bulletTexturePath[64];
 } Textures;
 
 typedef struct Level {
@@ -74,7 +74,8 @@ typedef struct Level {
     Arena arena;
     Player player;
     Textures textures;
-    Font alagard;
+    Font font;
+    float timer;
 } Level;
 
 typedef struct Game {
