@@ -18,7 +18,8 @@
 			"collision.h": "c",
 			"raymath.h": "c",
 			"textures.h": "c",
-			"level.h": "c"
+			"level.h": "c",
+			"game.h": "c"
 		}
 	}
 }

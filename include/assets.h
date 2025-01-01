@@ -2,6 +2,7 @@
 #define ASSETS_H
 
 typedef struct Level Level;
+typedef struct Game Game;
 
 typedef struct Assets {
     char gunTexturePath[64];
@@ -11,6 +12,6 @@ typedef struct Assets {
     char explosionTexturePath[64];
 } Assets;
 
-void LoadAssets(Level *level);
-
+void LoadLevelAssets(Level *level);
+void LoadGameAssets(Game *game);
 #endif

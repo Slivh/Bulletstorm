@@ -20,5 +20,7 @@ typedef struct Level {
 void SaveLevel(int levelNumber, Level *level);
 Level LoadLevel(int levelNumber, Game *game);
 void CreateLevel(int levelNumber);
+void UpdateLevel(Level *level, float deltaTime);
+void DrawLevel(Level *level, int gameSize);
 
 #endif

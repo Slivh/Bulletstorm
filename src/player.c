@@ -155,4 +155,8 @@ void UpdatePlayer(Player *player, Arena *arena, float deltaTime) {
         }
         
     }
+
+    if (player->lives <= 0) {
+        player->timeSinceDeath += deltaTime;
+    }
 }

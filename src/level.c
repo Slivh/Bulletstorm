@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "level.h"
 #include "raymath.h"
-#include "main.h"
+#include "game.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -18,7 +18,7 @@ void SaveLevel(int levelNumber, Level *level) {
 
 
 Level LoadLevel(int levelNumber, Game *game) {
-    Level level;
+    Level level = {0};
     char filename[32];
     snprintf(filename, sizeof(filename), "assets/levels/level_%d.bin", levelNumber);
 
@@ -56,6 +56,8 @@ Level LoadLevel(int levelNumber, Game *game) {
 
     level.arena.explosionArray.explosionSize = Vector2Scale(level.arena.explosionArray.explosionSize, game->size);
     level.arena.explosionArray.explosions = (Explosion*)malloc(0);
+
+    LoadLevelAssets(&level);
 
     return level;
 }
@@ -107,3 +109,47 @@ void CreateLevel(int levelNumber) {
     
     SaveLevel(levelNumber, &level);
 }   
+
+void UpdateLevel(Level *level, float deltaTime) {
+
+    if (level->player.lives > 0) {
+        UpdatePlayer(&level->player, &level->arena, deltaTime);
+
+        ShootGuns(&level->arena.gunArray, &level->arena.bulletArray, deltaTime);
+
+        UpdateBullets(&level->arena.bulletArray, level->arena.center, deltaTime);
+    }
+
+    UpdateExplosions(&level->arena.explosionArray, deltaTime);
+
+    if (!level->player.timeSinceDeath) {
+        level->timer += deltaTime;
+    }
+}
+
+void DrawLevel(Level *level, int gameSize) {
+    DrawArena(&level->arena, gameSize);
+
+    DrawPlayer(&level->player);
+
+    DrawBullets(&level->arena.bulletArray);
+
+    DrawGuns(&level->arena.gunArray);
+    
+    DrawExplosions(&level->arena.explosionArray);
+    // DrawText(TextFormat("CURRENT FPS: %i", (int)(1.0f/deltaTime)), 0, 0, 40, RED);
+
+    if (level->player.timeSinceDeath) {
+        float fontSize = 0.15f*(float)gameSize;
+        float spacing = 0.06f*fontSize;
+        
+        Vector2 textSize = MeasureTextEx(level->font, "SKILL ISSUE", fontSize, spacing);
+        Vector2 textPosition = {gameSize/2 - textSize.x/2, gameSize/2 - textSize.y/2};
+
+        DrawRectangle(0, textPosition.y-0.2f*textSize.y, gameSize, textSize.y*1.4f, (Color){0, 0, 0, 128});
+        DrawTextEx(level->font, "SKILL ISSUE", textPosition, fontSize, spacing, (Color){126, 0, 7, 255});
+    }
+
+    DrawText(TextFormat("timer: %.2fs", level->timer), 20, 50, 40, RED);
+
+}
