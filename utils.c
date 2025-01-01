@@ -35,7 +35,7 @@ void GetRotatedRecCorners(Vector2 *corners, Rectangle rec, float angle) {
     corners[3].y = cy + (halfWidth * sinTheta) - (halfHeight * cosTheta);
 }
 
-bool CheckCollisionRotatedRecs(Rectangle rectangle1, float angle1, Rectangle rectangle2, float angle2) {
+Vector2 CheckCollisionRotatedRecs(Rectangle rectangle1, float angle1, Rectangle rectangle2, float angle2) {
 
     Vector2 polygon1Vertices[4];
     Vector2 polygon2Vertices[4];
@@ -44,10 +44,15 @@ bool CheckCollisionRotatedRecs(Rectangle rectangle1, float angle1, Rectangle rec
     GetRotatedRecCorners(polygon2Vertices, rectangle2, angle2);
 
     for (int i=0; i<4; i++) {
-        if (CheckCollisionPointPoly(polygon1Vertices[i], polygon2Vertices, 4) || CheckCollisionPointPoly(polygon2Vertices[i], polygon1Vertices, 4)) {
-            return true;
+        bool collision1 = CheckCollisionPointPoly(polygon2Vertices[i], polygon1Vertices, 4);
+        bool collision2 = CheckCollisionPointPoly(polygon1Vertices[i], polygon2Vertices, 4);
+
+        if (collision1) {
+            return polygon2Vertices[i];
+        } else if (collision2) {
+            return polygon1Vertices[i];
         }
     }
 
-    return false;
+    return Vector2Zero();
 }

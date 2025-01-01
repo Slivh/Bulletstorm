@@ -8,17 +8,25 @@ void DrawPlayer(Player *player) {
 
     player->color = WHITE;
 
+    // Make player if has 1 life
     if (player->lives == 1) {
         player->color = RED;
     }
-    
+
+    // Make player green if invulnerable
     if (player->invulnerability > 0) {
         player->color = GREEN;
     }
+
+    // Make player black if dead
     if (player->lives == 0) {
         player->color = BLACK;
     }
+
+    // Draw player
     DrawTexturePro(player->playerTexture, (Rectangle){player->direction, player->currentFrame*24, 16, 24}, player->textureRec, Vector2Zero(), 0, player->color);
+    
+    // Draw player hitbox
     // DrawRectangleLines(player->hitbox.x, player->hitbox.y, player->hitbox.width, player->hitbox.height, player->color);
 
 }
@@ -72,9 +80,12 @@ void UpdatePlayer(Player *player, Arena *arena, float deltaTime) {
             player->direction = EAST;
             break;
     }
-    
-    // slows down when on walls
-    Vector2 newPlayerPosition = Vector2Add((Vector2){player->hitbox.x, player->hitbox.y}, Vector2Scale(Vector2Normalize(direction), deltaTime*player->speed));
+
+    // slows down when diagonal on walls
+    direction = Vector2Scale(Vector2Normalize(direction), deltaTime*player->speed);
+
+    // Add direction to exisiting position
+    Vector2 newPlayerPosition = Vector2Add((Vector2){player->hitbox.x, player->hitbox.y}, direction);
 
     // Clamp player inside arena boundaries
     newPlayerPosition.x = Clamp(newPlayerPosition.x, arena->center.x, arena->center.x + arena->center.width - player->hitbox.width);
@@ -93,7 +104,10 @@ void UpdatePlayer(Player *player, Arena *arena, float deltaTime) {
     
     // Check if player is hit
     for (int i=0; i<arena->bulletArray.logicalSize; i++) {
-        if (CheckCollisionRotatedRecs(player->hitbox, 0, arena->bulletArray.bullets[i].hitbox, arena->bulletArray.bullets[i].angle) && player->invulnerability == 0) {
+
+        Vector2 collisionPt = CheckCollisionRotatedRecs(player->hitbox, 0, arena->bulletArray.bullets[i].hitbox, arena->bulletArray.bullets[i].angle);
+        
+        if (Vector2Length(collisionPt) && player->invulnerability == 0) {
             
             // Remove 1 life and apply invulnerability
             player->lives -= 1;
@@ -105,8 +119,8 @@ void UpdatePlayer(Player *player, Arena *arena, float deltaTime) {
                 arena->explosionArray.size++;
             }
 
-            int x = arena->bulletArray.bullets[i].hitbox.x + arena->bulletArray.bullets[i].hitbox.width/2;            
-            int y = arena->bulletArray.bullets[i].hitbox.y + arena->bulletArray.bullets[i].hitbox.height/2;
+            int x = collisionPt.x;            
+            int y = collisionPt.y;
             int width = arena->explosionArray.explosionSize.x;
             int height = arena->explosionArray.explosionSize.y;
 
@@ -129,11 +143,16 @@ void UpdatePlayer(Player *player, Arena *arena, float deltaTime) {
     if (player->timeSinceLastUpdate < player->animationSpeed) {
         player->timeSinceLastUpdate += deltaTime;
     } else {
-        if (player->currentFrame == 2) {
-            player->currentFrame = 0;
+        if (Vector2Length(direction)) {
+            if (player->currentFrame == 2) {
+                player->currentFrame = 0;
+            } else {
+                player->currentFrame++;
+            }
+            player->timeSinceLastUpdate = 0;
         } else {
-            player->currentFrame++;
+            player->currentFrame = 1;
         }
-        player->timeSinceLastUpdate = 0;
+        
     }
 }

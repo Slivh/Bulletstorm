@@ -143,7 +143,7 @@ void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime);
 void UpdateBullets(BulletArray *bulletArray, Rectangle arenaCenter, float deltaTime);
 void DrawBullets(BulletArray *bulletArray);
 void GetRotatedRecCorners(Vector2 *corners, Rectangle rec, float angle);
-bool CheckCollisionRotatedRecs(Rectangle rectangle1, float angle1, Rectangle rectangle2, float angle2);
+Vector2 CheckCollisionRotatedRecs(Rectangle rectangle1, float angle1, Rectangle rectangle2, float angle2);
 void DrawTitleScreen();
 void DrawExplosions(ExplosionArray *explosionArray);
 void UpdateExplosions(ExplosionArray *explosionArray, float deltaTime);
