@@ -8,7 +8,7 @@
             "name": "Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/${fileBasenameNoExtension}",
+            "program": "${workspaceFolder}/build/bulletstorm_dev",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

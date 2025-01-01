@@ -17,7 +17,7 @@
                 "command": "mingw32-make.exe",
                 "args": [
                     "RAYLIB_PATH=C:/raylib/raylib",
-                    "PROJECT_NAME=bulletstorm",
+                    "PROJECT_NAME=build/bulletstorm_dev",
                     "OBJS=src/*.c",
                     "BUILD_MODE=DEBUG"
                 ],
