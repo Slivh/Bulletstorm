@@ -1,8 +1,8 @@
 #include "raylib.h"
 #include "raymath.h"
-#include "game.h"
-#include <stdio.h>
+#include "player.h"
 #include <stdlib.h>
+#include "collision.h"
 
 void DrawPlayer(Player *player) {
 

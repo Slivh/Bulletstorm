@@ -1,13 +1,17 @@
-#include "raylib.h"
-#include "game.h"
-#include "time.h"
+#include "gun.h"
 #include <stdlib.h>
-#include <stdio.h>
 #include "raymath.h"
+#include <stdlib.h>
 
+#include "stdio.h"
 void CreateGuns(GunArray *gunArray, int arenaCenterSize) {
-    gunArray->guns = (Gun*)malloc(gunArray->numberOfGunsPerSide*4 * sizeof(Gun));
 
+    gunArray->guns = (Gun*)malloc(gunArray->numberOfGunsPerSide * 4 * sizeof(Gun));
+    if (gunArray->guns == NULL) {
+        fprintf(stderr, "Memory allocation failed for guns array\n");
+        exit(EXIT_FAILURE);
+    }
+    
     int x, y, gunSide;
     
     for (int side=0; side<4; side++) {
@@ -34,7 +38,7 @@ void CreateGuns(GunArray *gunArray, int arenaCenterSize) {
 
             // add random delay before 1st shot
             float delay = (float)GetRandomValue(0, 500) / 1000;
-
+            printf("%d\n", side*gunArray->numberOfGunsPerSide + i);
             gunArray->guns[side*gunArray->numberOfGunsPerSide + i] = (Gun){x, y, gunSide, delay, timeBetweenShot};
         }
     }
@@ -142,64 +146,3 @@ void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime) {
     }
 }
 
-void UpdateBullets(BulletArray *bulletArray, Rectangle arenaCenter, float deltaTime) {
-    for (int i=0; i<bulletArray->logicalSize; i++) {
-        bulletArray->bullets[i].hitbox.x += bulletArray->bullets[i].direction.x*deltaTime;
-        bulletArray->bullets[i].hitbox.y += bulletArray->bullets[i].direction.y*deltaTime;
-        if (!CheckCollisionRecs(bulletArray->bullets[i].hitbox, arenaCenter)) {
-            if (bulletArray->bullets[i].reachedCenter) {
-                bulletArray->bullets[i] = bulletArray->bullets[bulletArray->logicalSize - 1];
-                bulletArray->logicalSize--;
-                i--;
-            }
-        } else {
-            bulletArray->bullets[i].reachedCenter = true;
-        }
-    }
-}
-
-void DrawBullets(BulletArray *bulletArray) {
-    for (int i=0; i<bulletArray->logicalSize; i++) {
-        
-        // DrawRectangleRec(bulletArray->bullets[i].hitbox, RED);
-
-        DrawTexturePro(
-            bulletArray->bulletTexture,
-            (Rectangle){0, 0, bulletArray->bulletTexture.width, bulletArray->bulletTexture.height},
-            (Rectangle){
-                bulletArray->bullets[i].hitbox.x + bulletArray->bullets[i].hitbox.width/2,
-                bulletArray->bullets[i].hitbox.y + bulletArray->bullets[i].hitbox.height/2,
-                bulletArray->bullets[i].hitbox.width,
-                bulletArray->bullets[i].hitbox.height
-            },
-            (Vector2){bulletArray->bullets[i].hitbox.width/2, bulletArray->bullets[i].hitbox.height/2},
-            bulletArray->bullets[i].angle * (180.0f / PI),
-            WHITE
-        );
-    }
-}
-
-void UpdateExplosions(ExplosionArray *explosionArray, float deltaTime) {
-    for (int i=0; i<explosionArray->logicalSize; i++) {
-
-        if (explosionArray->explosions[i].timeSinceLastUpdate < explosionArray->animationSpeed) {
-            explosionArray->explosions[i].timeSinceLastUpdate += deltaTime;
-        } else {
-            if (explosionArray->explosions[i].currentFrame == 8) {
-                explosionArray->explosions[i] = explosionArray->explosions[explosionArray->logicalSize - 1];
-                explosionArray->logicalSize--;
-                i--;
-            } else {
-                explosionArray->explosions[i].currentFrame++;
-                explosionArray->explosions[i].timeSinceLastUpdate = 0;
-            }
-        }
-    }
-}
-
-void DrawExplosions(ExplosionArray *explosionArray) {
-    for (int i=0; i<explosionArray->logicalSize; i++) {
-        DrawTexturePro(explosionArray->explosionTexture, (Rectangle){explosionArray->explosions[i].currentFrame*32, 0, 32, 32}, explosionArray->explosions[i].hitbox, Vector2Zero(), 0, WHITE);
-    }
-
-}

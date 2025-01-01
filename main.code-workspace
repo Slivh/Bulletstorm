@@ -12,7 +12,13 @@
 			"blocks.h": "c",
 			"stdio.h": "c",
 			"*.m": "c",
-			"stdlib.h": "c"
+			"stdlib.h": "c",
+			"explosions.h": "c",
+			"utils.h": "c",
+			"collision.h": "c",
+			"raymath.h": "c",
+			"textures.h": "c",
+			"level.h": "c"
 		}
 	}
 }

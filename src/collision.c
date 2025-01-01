@@ -1,10 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <math.h>
 #include "raylib.h"
 #include "raymath.h"
-#include "game.h"
+#include "collision.h"
 
 void GetRotatedRecCorners(Vector2 *corners, Rectangle rec, float angle) {
     // Calculate the center of the rectangle

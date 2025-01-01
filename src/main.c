@@ -1,8 +1,7 @@
 #include "raylib.h"
-#include "game.h"
+#include "main.h"
 #include <stdio.h>
-
-#define PLAYER_SPEED 3.0f
+#include "level.h"
 
 int main() {
     Game game;
@@ -30,7 +29,7 @@ int main() {
     
     game.level = LoadLevel(3, &game);
 
-    LoadTextures(&game.level);
+    LoadAssets(&game.level);
 
     SetTargetFPS(GetMonitorRefreshRate(GetCurrentMonitor()));
 

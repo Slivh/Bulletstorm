@@ -1,5 +1,5 @@
 #include "raylib.h"
-#include "game.h"
+#include "arena.h"
 
 void DrawArena(Arena *arena, int gameSize) {
     DrawTexturePro(
