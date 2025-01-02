@@ -19,7 +19,11 @@
 			"raymath.h": "c",
 			"textures.h": "c",
 			"level.h": "c",
-			"game.h": "c"
+			"game.h": "c",
+			"main_menu.h": "c",
+			"title_screen.h": "c",
+			"buttons.h": "c",
+			"string.h": "c"
 		}
 	}
 }

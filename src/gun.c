@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include "raymath.h"
 #include <stdlib.h>
-
+#include "game.h"
 #include "stdio.h"
+
 void CreateGuns(GunArray *gunArray, int arenaCenterSize) {
 
     gunArray->guns = (Gun*)malloc(gunArray->numberOfGunsPerSide * 4 * sizeof(Gun));
@@ -90,7 +91,7 @@ void DrawGuns(GunArray *gunArray) {
     }
 }
 
-void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime) {
+void ShootGuns(GunArray *gunArray, BulletArray *bulletArray) {
     for (int i=0; i<gunArray->numberOfGunsPerSide*4; i++) {
         if (gunArray->guns[i].timeSinceLastShot >= gunArray->guns[i].timeBetweenShot) {
 

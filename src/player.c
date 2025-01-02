@@ -3,6 +3,8 @@
 #include "player.h"
 #include <stdlib.h>
 #include "collision.h"
+#include "stdio.h"
+#include "game.h"
 
 void DrawPlayer(Player *player) {
 
@@ -31,7 +33,7 @@ void DrawPlayer(Player *player) {
 
 }
 
-void UpdatePlayer(Player *player, Arena *arena, float deltaTime) {
+void UpdatePlayer(Player *player, Arena *arena) {
     
     Vector2 direction = {0};
 
@@ -156,7 +158,7 @@ void UpdatePlayer(Player *player, Arena *arena, float deltaTime) {
         
     }
 
-    if (player->lives <= 0) {
-        player->timeSinceDeath += deltaTime;
+    if (player->lives == 0) {
+        player->timeSinceDeath =+ deltaTime;
     }
 }

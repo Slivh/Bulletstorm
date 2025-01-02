@@ -32,7 +32,7 @@ typedef struct Player {
 } Player;
 
 void DrawPlayer(Player *player);
-void UpdatePlayer(Player *player, Arena *arena, float deltaTime);
+void UpdatePlayer(Player *player, Arena *arena);
 
 
 #endif

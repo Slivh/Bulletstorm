@@ -19,7 +19,7 @@ typedef struct BulletArray {
     int logicalSize;
 } BulletArray;
 
-void UpdateBullets(BulletArray *bulletArray, Rectangle arenaCenter, float deltaTime);
+void UpdateBullets(BulletArray *bulletArray, Rectangle arenaCenter);
 void DrawBullets(BulletArray *bulletArray);
 
 #endif

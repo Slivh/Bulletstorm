@@ -14,6 +14,6 @@ typedef struct Arena {
     ExplosionArray explosionArray;
 } Arena;
 
-void DrawArena(Arena *arena, int gameSize);
+void DrawArena(Arena *arena);
 
 #endif

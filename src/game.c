@@ -2,26 +2,26 @@
 #include "game.h"
 #include "level.h"
 #include <string.h>
-#include "title_screen.h"
 #include "loading_screen.h"
+#include "stdio.h"
+#include "main_menu.h"
+
 
 void InitializeGame(Game *game) {
+    // SetConfigFlags(FLAG_FULLSCREEN_MODE);
+    SetConfigFlags(FLAG_WINDOW_UNDECORATED);
 
-    strcpy(game->name, "Bulletstorm");
+    InitWindow(windowWidth, windowHeight, gameName);
 
-    InitWindow(game->windowWidth, game->windowHeight, game->name);
-    
-    SetTargetFPS(GetMonitorRefreshRate(GetCurrentMonitor()));
+    SetTargetFPS(GetMonitorRefreshRate(GetCurrentMonitor()));    
 
-    game->state = TITLE_SCREEN;
-    
-    if (game->windowWidth < game->windowHeight) {
-        game->size = game->windowWidth;
-        game->offsetY = (game->windowHeight - game->size) / 2;
+    if (windowWidth < windowHeight) {
+        gameSize = windowWidth;
+        game->offsetY = (windowHeight - gameSize) / 2;
         game->offsetX = 0;
     } else {
-        game->size = game->windowHeight;
-        game->offsetX = (game->windowWidth - game->size) / 2;
+        gameSize = windowHeight;
+        game->offsetX = (windowWidth - gameSize) / 2;
         game->offsetY = 0;
     }
 
@@ -34,42 +34,39 @@ void InitializeGame(Game *game) {
 
 void UpdateGame(Game *game) {
 
-    float deltaTime = GetFrameTime();
+    deltaTime = GetFrameTime();
 
-    if (game->state == TITLE_SCREEN) {
+    if (gameState == LOADING) {
 
-        UpdateTitleScreen(game);
+    } else if (gameState == IN_GAME) {
 
-    } else if (game->state == LOADING) {
+        UpdateLevel(&game->level);
 
-    } else if (game->state == IN_GAME) {
-
-        UpdateLevel(&game->level, deltaTime);
-
+    } else if (gameState == MAIN_MENU) {
+        UpdateMainMenu(game);
     }
 
 }
 
 void DrawGame(Game *game) {
     BeginDrawing();
-    BeginMode2D(game->camera);
-    BeginScissorMode(game->offsetX, game->offsetY, game->size, game->size);
+    ClearBackground(BLACK);
 
-        if (game->state == TITLE_SCREEN) {
-
-            DrawTitleScreen(game);
-
-        } else if (game->state == LOADING) {
+        if (gameState == LOADING) {
 
             DrawLoadingScreen(game);
 
-        } else if (game->state == IN_GAME) {
+        } else if (gameState == IN_GAME) {
+            BeginMode2D(game->camera);
+            BeginScissorMode(game->offsetX, game->offsetY, gameSize, gameSize);
 
-            DrawLevel(&game->level, game->size);
-
+                DrawLevel(&game->level);
+                
+            EndScissorMode();
+            EndMode2D();
+        } else if (gameState == MAIN_MENU) {
+            DrawMainMenu(game);
         }
 
-    EndScissorMode();
-    EndMode2D();
     EndDrawing();
 }

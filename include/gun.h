@@ -34,7 +34,7 @@ enum Side {
 
 void CreateGuns(GunArray *gunArray, int arenaCenterSize);
 void DrawGuns(GunArray *gunArray);
-void ShootGuns(GunArray *gunArray, BulletArray *bulletArray, float deltaTime);
+void ShootGuns(GunArray *gunArray, BulletArray *bulletArray);
 
 
 #endif

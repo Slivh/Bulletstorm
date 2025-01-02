@@ -1,6 +1,7 @@
 #include "bullets.h"
+#include "game.h"
 
-void UpdateBullets(BulletArray *bulletArray, Rectangle arenaCenter, float deltaTime) {
+void UpdateBullets(BulletArray *bulletArray, Rectangle arenaCenter) {
     for (int i=0; i<bulletArray->logicalSize; i++) {
         bulletArray->bullets[i].hitbox.x += bulletArray->bullets[i].direction.x*deltaTime;
         bulletArray->bullets[i].hitbox.y += bulletArray->bullets[i].direction.y*deltaTime;

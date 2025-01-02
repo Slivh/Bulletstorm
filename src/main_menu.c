@@ -1,0 +1,57 @@
+#include "main_menu.h"
+#include "raylib.h"
+#include "game.h"
+#include "buttons.h"
+#include "stdio.h"
+#include <string.h>
+#include "death_screen.h"
+
+void InitializeMainMenu(Game *game) {
+
+    MainMenu *mainMenu = &game->mainMenu; 
+    mainMenu->buttons.count = 3;
+    mainMenu->buttons.margin = 0.02f*gameSize;
+    mainMenu->buttons.fontSize = 0.05f*gameSize;
+    strcpy(mainMenu->buttons.names[0], "Play");
+    strcpy(mainMenu->buttons.names[1], "Settings");
+    strcpy(mainMenu->buttons.names[2], "Exit");
+    mainMenu->buttons.selected = 0;
+    
+    mainMenu->titleFontSize = 0.15f*(float)gameSize;
+    mainMenu->titleSpacing = 0.06*mainMenu->titleFontSize;
+
+    mainMenu->titleSize = MeasureTextEx(gameFont, gameName, mainMenu->titleFontSize, mainMenu->titleSpacing);
+    mainMenu->titlePosition = (Vector2){windowWidth/2 - mainMenu->titleSize.x/2, windowHeight/4 - mainMenu->titleSize.y/2};
+}
+
+void UpdateMainMenu(Game *game) {
+    MainMenu *mainMenu = &game->mainMenu; 
+    if (IsKeyPressed(KEY_DOWN) && mainMenu->buttons.selected < 2) mainMenu->buttons.selected += 1;
+    if (IsKeyPressed(KEY_UP) && mainMenu->buttons.selected > 0) mainMenu->buttons.selected -= 1;
+    if (IsKeyPressed(KEY_ENTER)) {
+        if (mainMenu->buttons.selected == 0) {
+            gameState = IN_GAME;
+            game->level = LoadLevel(1);
+        } else if (mainMenu->buttons.selected == 1) {
+
+        } else if (mainMenu->buttons.selected == 2) {
+            CloseWindow();
+        }
+    }
+}
+
+void DrawMainMenu(Game *game) {
+    MainMenu *mainMenu = &game->mainMenu; 
+
+    DrawTextEx(gameFont, gameName, mainMenu->titlePosition, mainMenu->titleFontSize, mainMenu->titleSpacing, RAYWHITE);
+
+    Color color;
+    for(int i=0; i<3; i++) {
+        color = (mainMenu->buttons.selected == i) ? deathRed : WHITE;
+
+        Vector2 textSize = MeasureTextEx(gameFont, mainMenu->buttons.names[i], mainMenu->buttons.fontSize, 0.06f*mainMenu->buttons.fontSize);
+        // DrawRectangle(windowWidth/2 - textSize.x/2, windowHeight/2 + textSize.y * i + mainMenu->buttons.margin * i, textSize.x, textSize.y, RED);
+        Vector2 textPosition = {windowWidth/2 - textSize.x/2, windowHeight/2 + textSize.y * i + mainMenu->buttons.margin * i};
+        DrawTextEx(gameFont, mainMenu->buttons.names[i], textPosition, mainMenu->buttons.fontSize, 0.06f*mainMenu->buttons.fontSize, color);
+    }
+}

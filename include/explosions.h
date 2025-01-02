@@ -20,7 +20,7 @@ typedef struct ExplosionArray {
     int logicalSize;
 } ExplosionArray;
 
-void UpdateExplosions(ExplosionArray *explosionArray, float deltaTime);
+void UpdateExplosions(ExplosionArray *explosionArray);
 void DrawExplosions(ExplosionArray *explosionArray);
 
 #endif

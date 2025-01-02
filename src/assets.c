@@ -2,6 +2,7 @@
 #include "assets.h"
 #include "level.h"
 #include "game.h"
+#include <stdio.h>
 
 void LoadLevelAssets(Level *level) {
     level->arena.backgroundTexture = LoadTexture(level->assets.backgroundTexturePath);
@@ -13,6 +14,6 @@ void LoadLevelAssets(Level *level) {
 }
 
 void LoadGameAssets(Game *game) {
-    game->font = LoadFont("assets/fonts/editundo.ttf");
+    gameFont = LoadFont("assets/fonts/alagard.png");
 }
 

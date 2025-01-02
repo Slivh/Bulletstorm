@@ -1,7 +1,8 @@
 #include "explosions.h"
 #include "raylib.h"
+#include "game.h"
 
-void UpdateExplosions(ExplosionArray *explosionArray, float deltaTime) {
+void UpdateExplosions(ExplosionArray *explosionArray) {
     for (int i=0; i<explosionArray->logicalSize; i++) {
 
         if (explosionArray->explosions[i].timeSinceLastUpdate < explosionArray->animationSpeed) {
