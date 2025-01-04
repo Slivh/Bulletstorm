@@ -10,7 +10,6 @@ void LoadLevelAssets(Level *level) {
     level->player.playerTexture = LoadTexture(level->assets.playerTexturePath);
     level->arena.bulletArray.bulletTexture = LoadTexture(level->assets.bulletTexturePath);
     level->arena.explosionArray.explosionTexture = LoadTexture(level->assets.explosionTexturePath);
-    level->font = LoadFont("assets/fonts/alagard.png");
 }
 
 void LoadGameAssets(Game *game) {

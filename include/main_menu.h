@@ -5,12 +5,7 @@
 
 typedef struct Game Game;
 
-
 typedef struct MainMenu {
-    float animationDelay;
-    float animationDuration;
-    int opacity;
-    float time;
     Buttons buttons;
     float titleFontSize;
     float titleSpacing;

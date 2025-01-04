@@ -23,7 +23,8 @@
 			"main_menu.h": "c",
 			"title_screen.h": "c",
 			"buttons.h": "c",
-			"string.h": "c"
+			"string.h": "c",
+			"system_error": "c"
 		}
 	}
 }

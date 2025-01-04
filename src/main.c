@@ -5,14 +5,14 @@
 #include "main_menu.h"
 #include <string.h>
 
-int windowWidth = 2560;
+int windowWidth = 2650;
 int windowHeight = 1600;
 int gameState = MAIN_MENU;
 int gameSize = 0;
 char gameName[11] = "Bulletstorm";
 float deltaTime = 0;
 Font gameFont;
-    
+
 int main() {
     Game game;
 

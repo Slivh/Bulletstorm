@@ -96,7 +96,7 @@ void CreateLevel(int levelNumber) {
     strcpy(level.assets.explosionTexturePath, "assets/textures/arena/guns/explosion.png");
 
 
-
+    level.player.isDead = false;
     level.player.lives = 3;
     level.player.invulnerability = 0;
     level.player.hitbox = (Rectangle){0, 0, 0.032, 0.048f};
@@ -123,17 +123,18 @@ void UpdateLevel(Level *level) {
         UpdateBullets(&level->arena.bulletArray, level->arena.center);
     } else {
         level->player.timeSinceDeath += deltaTime;
-        if (level->player.timeSinceDeath > 1) {
-            if (IsKeyDown(KEY_ENTER)) {
-                *level = LoadLevel(level->number);
-            }
-        }
     }
 
     UpdateExplosions(&level->arena.explosionArray);
 
     if (!level->player.timeSinceDeath) {
         level->timer += deltaTime;
+    } else {
+        if (!level->player.isDead) {
+            InitializeDeathScreen(level);
+            level->player.isDead = true;
+        }
+        UpdateDeathScreen(level);
     }
 }
 
@@ -149,10 +150,9 @@ void DrawLevel(Level *level) {
     DrawExplosions(&level->arena.explosionArray);
     
     // DrawText(TextFormat("timer: %.2fs", level->timer), 20, 50, 40, RED);
-
     if (level->player.timeSinceDeath) {
-        DrawDeathScreen(level);
+        DrawDeathScreen(&level->deathScreen);
     }
 
-    // DrawText(TextFormat("CURRENT FPS: %i", (int)(1.0f/deltaTime)), 0, 0, 40, RED);
+    DrawText(TextFormat("CURRENT FPS: %i", (int)(1.0f/deltaTime)), 0, 0, 40, RED);
 }

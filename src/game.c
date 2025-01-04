@@ -2,7 +2,6 @@
 #include "game.h"
 #include "level.h"
 #include <string.h>
-#include "loading_screen.h"
 #include "stdio.h"
 #include "main_menu.h"
 
@@ -13,7 +12,7 @@ void InitializeGame(Game *game) {
 
     InitWindow(windowWidth, windowHeight, gameName);
 
-    SetTargetFPS(GetMonitorRefreshRate(GetCurrentMonitor()));    
+    SetTargetFPS(165);    
 
     if (windowWidth < windowHeight) {
         gameSize = windowWidth;
@@ -36,9 +35,7 @@ void UpdateGame(Game *game) {
 
     deltaTime = GetFrameTime();
 
-    if (gameState == LOADING) {
-
-    } else if (gameState == IN_GAME) {
+    if (gameState == IN_GAME) {
 
         UpdateLevel(&game->level);
 
@@ -52,11 +49,7 @@ void DrawGame(Game *game) {
     BeginDrawing();
     ClearBackground(BLACK);
 
-        if (gameState == LOADING) {
-
-            DrawLoadingScreen(game);
-
-        } else if (gameState == IN_GAME) {
+        if (gameState == IN_GAME) {
             BeginMode2D(game->camera);
             BeginScissorMode(game->offsetX, game->offsetY, gameSize, gameSize);
 

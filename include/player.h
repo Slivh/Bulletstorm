@@ -16,6 +16,7 @@ enum Direction {
 };
 
 typedef struct Player {
+    bool isDead;
     int lives;
     float speed;
     float invulnerability;

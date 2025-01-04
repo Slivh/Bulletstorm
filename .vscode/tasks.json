@@ -18,7 +18,7 @@
                 "args": [
                     "RAYLIB_PATH=C:/raylib/raylib",
                     "PROJECT_NAME=build/bulletstorm_dev",
-                    "OBJS=src/*.c",
+                    "OBJS= src/arena.c src/assets.c src/bullets.c src/collision.c src/death_screen.c src/explosions.c src/game.c src/gun.c src/level.c src/main_menu.c src/main.c src/player.c",
                     "BUILD_MODE=DEBUG"
                 ],
             },
@@ -51,8 +51,8 @@
                 "command": "mingw32-make.exe",
                 "args": [
                     "RAYLIB_PATH=C:/raylib/raylib",
-                    "PROJECT_NAME=${fileBasenameNoExtension}",
-                    "OBJS=${fileBasenameNoExtension}.c"
+                    "PROJECT_NAME=build/bulletstorm_release",
+                    "OBJS= src/arena.c src/assets.c src/bullets.c src/collision.c src/death_screen.c src/explosions.c src/game.c src/gun.c src/level.c src/main_menu.c src/main.c src/player.c"
                 ],
             },
             "osx": {

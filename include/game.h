@@ -14,7 +14,6 @@ extern Font gameFont;
 
 enum State {
     MAIN_MENU,
-    LOADING,
     IN_GAME
 };
 

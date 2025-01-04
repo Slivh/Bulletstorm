@@ -26,7 +26,7 @@ void InitializeMainMenu(Game *game) {
 
 void UpdateMainMenu(Game *game) {
     MainMenu *mainMenu = &game->mainMenu; 
-    if (IsKeyPressed(KEY_DOWN) && mainMenu->buttons.selected < 2) mainMenu->buttons.selected += 1;
+    if (IsKeyPressed(KEY_DOWN) && mainMenu->buttons.selected < mainMenu->buttons.count - 1) mainMenu->buttons.selected += 1;
     if (IsKeyPressed(KEY_UP) && mainMenu->buttons.selected > 0) mainMenu->buttons.selected -= 1;
     if (IsKeyPressed(KEY_ENTER)) {
         if (mainMenu->buttons.selected == 0) {
@@ -46,7 +46,7 @@ void DrawMainMenu(Game *game) {
     DrawTextEx(gameFont, gameName, mainMenu->titlePosition, mainMenu->titleFontSize, mainMenu->titleSpacing, RAYWHITE);
 
     Color color;
-    for(int i=0; i<3; i++) {
+    for(int i=0; i<mainMenu->buttons.count; i++) {
         color = (mainMenu->buttons.selected == i) ? deathRed : WHITE;
 
         Vector2 textSize = MeasureTextEx(gameFont, mainMenu->buttons.names[i], mainMenu->buttons.fontSize, 0.06f*mainMenu->buttons.fontSize);

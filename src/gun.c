@@ -39,7 +39,6 @@ void CreateGuns(GunArray *gunArray, int arenaCenterSize) {
 
             // add random delay before 1st shot
             float delay = (float)GetRandomValue(0, 500) / 1000;
-            printf("%d\n", side*gunArray->numberOfGunsPerSide + i);
             gunArray->guns[side*gunArray->numberOfGunsPerSide + i] = (Gun){x, y, gunSide, delay, timeBetweenShot};
         }
     }

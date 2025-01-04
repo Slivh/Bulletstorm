@@ -7,14 +7,15 @@ typedef struct Game Game;
 #include "arena.h"
 #include "player.h"
 #include "assets.h"
+#include "death_screen.h"
 
 typedef struct Level {
     int number;
     Arena arena;
     Player player;
     Assets assets;
-    Font font;
     float timer;
+    DeathScreen deathScreen;
 } Level;
 
 void SaveLevel(int levelNumber, Level *level);
