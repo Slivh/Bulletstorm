@@ -68,7 +68,7 @@ Level LoadLevel(int levelNumber) {
 void CreateLevel(int levelNumber) {
     Level level;
 
-    strcpy(level.assets.backgroundTexturePath, "assets/textures/arena/maps/autumn.png");
+    strcpy(level.assets.backgroundTexturePath, "assets/textures/arena/maps/spring.png");
 
     level.timer = 0;
     
@@ -78,8 +78,8 @@ void CreateLevel(int levelNumber) {
     level.arena.gunArray.gunTextureOffset = 0.0f;
     level.arena.gunArray.gunOffset = 0.1f;
     level.arena.gunArray.gunScaling = 0.5f;
-    level.arena.gunArray.gunFireDelay = 5;
-    level.arena.gunArray.gunFireDelayDeviation = 4;
+    level.arena.gunArray.gunFireDelay = 7;
+    level.arena.gunArray.gunFireDelayDeviation = 6;
     level.arena.gunArray.gunFireAngleDeviation = 40;
     strcpy(level.assets.gunTexturePath, "assets/textures/arena/guns/lasergun.png");
     
@@ -102,7 +102,7 @@ void CreateLevel(int levelNumber) {
     level.player.hitbox = (Rectangle){0, 0, 0.032, 0.048f};
     level.player.currentFrame = 0;
     level.player.timeSinceLastUpdate = 0;
-    level.player.animationSpeed = 0.1f;
+    level.player.animationSpeed = 0.07f;
     level.player.textureOffset = (Vector2){-0.009f, -0.012f};
     level.player.textureRec = (Rectangle){0, 0, 0.048f, 0.072f};
     level.player.speed = 0.4f;
@@ -154,5 +154,5 @@ void DrawLevel(Level *level) {
         DrawDeathScreen(&level->deathScreen);
     }
 
-    DrawText(TextFormat("CURRENT FPS: %i", (int)(1.0f/deltaTime)), 0, 0, 40, RED);
+    // DrawText(TextFormat("CURRENT FPS: %i", (int)(1.0f/deltaTime)), 0, 0, 40, RED);
 }

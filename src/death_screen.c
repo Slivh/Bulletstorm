@@ -48,7 +48,7 @@ void UpdateDeathScreen(Level *level) {
     if (IsKeyPressed(KEY_DOWN) && deathScreen->buttons.selected < deathScreen->buttons.count - 1) deathScreen->buttons.selected += 1;
     if (IsKeyPressed(KEY_UP) && deathScreen->buttons.selected > 0) deathScreen->buttons.selected -= 1;
     
-    if (IsKeyPressed(KEY_ENTER)) {
+    if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) {
         if (deathScreen->buttons.selected == 0) {
             *level = LoadLevel(level->number);
         } else if (deathScreen->buttons.selected == 1) {

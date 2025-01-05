@@ -28,7 +28,7 @@ void UpdateMainMenu(Game *game) {
     MainMenu *mainMenu = &game->mainMenu; 
     if (IsKeyPressed(KEY_DOWN) && mainMenu->buttons.selected < mainMenu->buttons.count - 1) mainMenu->buttons.selected += 1;
     if (IsKeyPressed(KEY_UP) && mainMenu->buttons.selected > 0) mainMenu->buttons.selected -= 1;
-    if (IsKeyPressed(KEY_ENTER)) {
+    if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) {
         if (mainMenu->buttons.selected == 0) {
             gameState = IN_GAME;
             game->level = LoadLevel(1);
