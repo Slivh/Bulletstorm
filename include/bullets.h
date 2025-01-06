@@ -3,14 +3,16 @@
 
 #include "raylib.h"
 
-typedef struct Bullet {
+typedef struct Bullet
+{
     Rectangle hitbox;
     Vector2 direction;
     float angle;
     bool reachedCenter;
 } Bullet;
 
-typedef struct BulletArray {
+typedef struct BulletArray
+{
     Texture2D bulletTexture;
     Vector2 bulletSize;
     float bulletSpeed;

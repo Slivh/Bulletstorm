@@ -9,7 +9,8 @@ typedef struct Game Game;
 #include "assets.h"
 #include "death_screen.h"
 
-typedef struct Level {
+typedef struct Level
+{
     int number;
     Arena arena;
     Player player;

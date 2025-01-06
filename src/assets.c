@@ -4,7 +4,8 @@
 #include "game.h"
 #include <stdio.h>
 
-void LoadLevelAssets(Level *level) {
+void LoadLevelAssets(Level *level)
+{
     level->arena.backgroundTexture = LoadTexture(level->assets.backgroundTexturePath);
     level->arena.gunArray.gunTexture = LoadTexture(level->assets.gunTexturePath);
     level->player.playerTexture = LoadTexture(level->assets.playerTexturePath);
@@ -12,7 +13,7 @@ void LoadLevelAssets(Level *level) {
     level->arena.explosionArray.explosionTexture = LoadTexture(level->assets.explosionTexturePath);
 }
 
-void LoadGameAssets(Game *game) {
+void LoadGameAssets(Game *game)
+{
     gameFont = LoadFont("assets/fonts/alagard.png");
 }
-

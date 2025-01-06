@@ -5,20 +5,39 @@
 #include "stdio.h"
 #include "main_menu.h"
 
+void InitializeGame(Game *game)
+{
 
-void InitializeGame(Game *game) {
+#if defined(PLATFORM_DESKTOP)
+    platform = DESKTOP;
+#elif defined(PLATFORM_ANDROID)
+    platform = WEB;
+#elif defined(PLATFORM_WEB)
+    platform = ANDROID;
+#endif
+
+    gameState = MAIN_MENU;
+
     // SetConfigFlags(FLAG_FULLSCREEN_MODE);
     SetConfigFlags(FLAG_WINDOW_UNDECORATED);
 
-    InitWindow(windowWidth, windowHeight, gameName);
+    InitWindow(0, 0, gameName);
 
-    SetTargetFPS(165);    
+    windowWidth = GetMonitorWidth(GetCurrentMonitor());
+    windowHeight = GetMonitorHeight(GetCurrentMonitor());
 
-    if (windowWidth < windowHeight) {
+    SetWindowSize(windowWidth, windowHeight);
+
+    SetTargetFPS(GetMonitorRefreshRate(GetCurrentMonitor()));
+
+    if (windowWidth < windowHeight)
+    {
         gameSize = windowWidth;
         game->offsetY = (windowHeight - gameSize) / 2;
         game->offsetX = 0;
-    } else {
+    }
+    else
+    {
         gameSize = windowHeight;
         game->offsetX = (windowWidth - gameSize) / 2;
         game->offsetY = 0;
@@ -26,40 +45,46 @@ void InitializeGame(Game *game) {
 
     game->camera.target = (Vector2){0};
     game->camera.offset = (Vector2){game->offsetX, game->offsetY};
-    game->camera.zoom = 1.0f; 
+    game->camera.zoom = 1.0f;
 
-    LoadGameAssets(game); 
+    LoadGameAssets(game);
 }
 
-void UpdateGame(Game *game) {
+void UpdateGame(Game *game)
+{
 
     deltaTime = GetFrameTime();
 
-    if (gameState == IN_GAME) {
+    if (gameState == IN_GAME)
+    {
 
         UpdateLevel(&game->level);
-
-    } else if (gameState == MAIN_MENU) {
+    }
+    else if (gameState == MAIN_MENU)
+    {
         UpdateMainMenu(game);
     }
-
 }
 
-void DrawGame(Game *game) {
+void DrawGame(Game *game)
+{
     BeginDrawing();
     ClearBackground(BLACK);
 
-        if (gameState == IN_GAME) {
-            BeginMode2D(game->camera);
-            BeginScissorMode(game->offsetX, game->offsetY, gameSize, gameSize);
+    if (gameState == IN_GAME)
+    {
+        BeginMode2D(game->camera);
+        BeginScissorMode(game->offsetX, game->offsetY, gameSize, gameSize);
 
-                DrawLevel(&game->level);
-                
-            EndScissorMode();
-            EndMode2D();
-        } else if (gameState == MAIN_MENU) {
-            DrawMainMenu(game);
-        }
+        DrawLevel(&game->level);
+
+        EndScissorMode();
+        EndMode2D();
+    }
+    else if (gameState == MAIN_MENU)
+    {
+        DrawMainMenu(game);
+    }
 
     EndDrawing();
 }

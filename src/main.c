@@ -5,15 +5,17 @@
 #include "main_menu.h"
 #include <string.h>
 
-int windowWidth = 2560;
-int windowHeight = 1600;
-int gameState = MAIN_MENU;
-int gameSize = 0;
+int windowWidth;
+int windowHeight;
+int gameState;
+int gameSize;
 char gameName[11] = "Bulletstorm";
 float deltaTime = 0;
 Font gameFont;
+int platform;
 
-int main() {
+int main()
+{
     Game game;
 
     InitializeGame(&game);
@@ -22,12 +24,11 @@ int main() {
 
     InitializeMainMenu(&game);
 
-    while (!WindowShouldClose()) {
-        
+    while (!WindowShouldClose())
+    {
         UpdateGame(&game);
 
         DrawGame(&game);
-
     }
     CloseWindow();
 

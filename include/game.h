@@ -11,13 +11,23 @@ extern int gameSize;
 extern char gameName[11];
 extern float deltaTime;
 extern Font gameFont;
+extern int platform;
 
-enum State {
+enum State
+{
     MAIN_MENU,
     IN_GAME
 };
 
-typedef struct Game {
+enum Platform
+{
+    WEB,
+    DESKTOP,
+    ANDROID
+};
+
+typedef struct Game
+{
     bool fullscreen;
     int offsetX;
     int offsetY;

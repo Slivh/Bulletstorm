@@ -6,7 +6,8 @@
 #include "bullets.h"
 #include "explosions.h"
 
-typedef struct Arena {
+typedef struct Arena
+{
     Texture2D backgroundTexture;
     Rectangle center;
     GunArray gunArray;

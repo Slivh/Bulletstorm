@@ -4,8 +4,8 @@
 typedef struct Level Level;
 typedef struct Game Game;
 
-
-typedef struct Assets {
+typedef struct Assets
+{
     char gunTexturePath[64];
     char backgroundTexturePath[64];
     char playerTexturePath[64];

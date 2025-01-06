@@ -4,7 +4,8 @@
 #include "raylib.h"
 #include "arena.h"
 
-enum Direction {
+enum Direction
+{
     NORTH = 0,
     NORTH_EAST = 16,
     EAST = 32,
@@ -15,12 +16,13 @@ enum Direction {
     NORTH_WEST = 112
 };
 
-typedef struct Player {
+typedef struct Player
+{
     bool isDead;
     int lives;
     float speed;
     float invulnerability;
-    int direction; 
+    int direction;
     Rectangle hitbox;
     Texture2D playerTexture;
     float timeSinceDeath;
@@ -34,6 +36,5 @@ typedef struct Player {
 
 void DrawPlayer(Player *player);
 void UpdatePlayer(Player *player, Arena *arena);
-
 
 #endif

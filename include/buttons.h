@@ -3,7 +3,8 @@
 
 #include "raylib.h"
 
-typedef struct Buttons {
+typedef struct Buttons
+{
     int count;
     char names[8][16];
     float fontSize;

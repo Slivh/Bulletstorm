@@ -4,14 +4,16 @@
 #include "raylib.h"
 #include "bullets.h"
 
-typedef struct Gun {
+typedef struct Gun
+{
     int x, y;
     int side;
     float timeSinceLastShot;
     float timeBetweenShot;
 } Gun;
 
-typedef struct GunArray {    
+typedef struct GunArray
+{
     Texture2D gunTexture;
     float gunOffset;
     float gunScaling;
@@ -25,7 +27,8 @@ typedef struct GunArray {
     Gun *guns;
 } GunArray;
 
-enum Side {
+enum Side
+{
     LEFT,
     RIGHT,
     TOP,
@@ -35,6 +38,5 @@ enum Side {
 void CreateGuns(GunArray *gunArray, int arenaCenterSize);
 void DrawGuns(GunArray *gunArray);
 void ShootGuns(GunArray *gunArray, BulletArray *bulletArray);
-
 
 #endif

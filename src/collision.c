@@ -2,7 +2,8 @@
 #include "raymath.h"
 #include "collision.h"
 
-void GetRotatedRecCorners(Vector2 *corners, Rectangle rec, float angle) {
+void GetRotatedRecCorners(Vector2 *corners, Rectangle rec, float angle)
+{
     // Calculate the center of the rectangle
     float cx = rec.x + rec.width / 2;
     float cy = rec.y + rec.height / 2;
@@ -17,7 +18,7 @@ void GetRotatedRecCorners(Vector2 *corners, Rectangle rec, float angle) {
     // Top-right corner
     corners[0].x = cx + (halfWidth * cosTheta) - (halfHeight * sinTheta);
     corners[0].y = cy + (halfWidth * sinTheta) + (halfHeight * cosTheta);
- 
+
     // Top-left corner
     corners[1].x = cx - (halfWidth * cosTheta) - (halfHeight * sinTheta);
     corners[1].y = cy - (halfWidth * sinTheta) + (halfHeight * cosTheta);
@@ -31,7 +32,8 @@ void GetRotatedRecCorners(Vector2 *corners, Rectangle rec, float angle) {
     corners[3].y = cy + (halfWidth * sinTheta) - (halfHeight * cosTheta);
 }
 
-Vector2 CheckCollisionRotatedRecs(Rectangle rectangle1, float angle1, Rectangle rectangle2, float angle2) {
+Vector2 CheckCollisionRotatedRecs(Rectangle rectangle1, float angle1, Rectangle rectangle2, float angle2)
+{
 
     Vector2 polygon1Vertices[4];
     Vector2 polygon2Vertices[4];
@@ -39,13 +41,17 @@ Vector2 CheckCollisionRotatedRecs(Rectangle rectangle1, float angle1, Rectangle 
     GetRotatedRecCorners(polygon1Vertices, rectangle1, angle1);
     GetRotatedRecCorners(polygon2Vertices, rectangle2, angle2);
 
-    for (int i=0; i<4; i++) {
+    for (int i = 0; i < 4; i++)
+    {
         bool collision1 = CheckCollisionPointPoly(polygon2Vertices[i], polygon1Vertices, 4);
         bool collision2 = CheckCollisionPointPoly(polygon1Vertices[i], polygon2Vertices, 4);
 
-        if (collision1) {
+        if (collision1)
+        {
             return polygon2Vertices[i];
-        } else if (collision2) {
+        }
+        else if (collision2)
+        {
             return polygon1Vertices[i];
         }
     }

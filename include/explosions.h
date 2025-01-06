@@ -3,15 +3,16 @@
 
 #include "raylib.h"
 
-
-typedef struct Explosion {
+typedef struct Explosion
+{
     Rectangle hitbox;
     float timeSinceLastUpdate;
     int currentFrame;
 
 } Explosion;
 
-typedef struct ExplosionArray {
+typedef struct ExplosionArray
+{
     Texture2D explosionTexture;
     Vector2 explosionSize;
     float animationSpeed;

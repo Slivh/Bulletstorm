@@ -5,7 +5,8 @@
 
 typedef struct Game Game;
 
-typedef struct MainMenu {
+typedef struct MainMenu
+{
     Buttons buttons;
     float titleFontSize;
     float titleSpacing;

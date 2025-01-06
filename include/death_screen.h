@@ -7,7 +7,8 @@ extern Color deathRed;
 
 typedef struct Level Level;
 
-typedef struct DeathScreen {
+typedef struct DeathScreen
+{
     char message[16];
     char timer[16];
     float animationDelay;
