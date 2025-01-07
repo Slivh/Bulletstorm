@@ -87,7 +87,7 @@ void CreateLevel(int levelNumber)
 
     // Bullet properties
     level.arena.bulletArray.bulletSize = (Vector2){0.025f, 0.013f};
-    level.arena.bulletArray.bulletSpeed = 0.3f;
+    level.arena.bulletArray.bulletSpeed = 0.25f;
     level.arena.bulletArray.size = 0;
     level.arena.bulletArray.logicalSize = 0;
     strcpy(level.assets.bulletTexturePath, "assets/textures/arena/guns/fireball.png");
@@ -109,10 +109,10 @@ void CreateLevel(int levelNumber)
     level.player.animationSpeed = 0.07f;
     level.player.textureOffset = (Vector2){-0.009f, -0.012f};
     level.player.textureRec = (Rectangle){0, 0, 0.048f, 0.072f};
-    level.player.speed = 0.4f;
+    level.player.speed = 0.3f;
     level.player.timeSinceDeath = 0;
     level.player.color = WHITE;
-    strcpy(level.assets.playerTexturePath, "assets/textures/player/orange.png");
+    strcpy(level.assets.playerTexturePath, "assets/textures/player/blue.png");
 
     // Save struct to file
     SaveLevel(levelNumber, &level);

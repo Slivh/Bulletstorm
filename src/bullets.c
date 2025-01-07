@@ -27,9 +27,6 @@ void DrawBullets(BulletArray *bulletArray)
 {
     for (int i = 0; i < bulletArray->logicalSize; i++)
     {
-
-        // DrawRectangleRec(bulletArray->bullets[i].hitbox, RED);
-
         DrawTexturePro(
             bulletArray->bulletTexture,
             (Rectangle){0, 0, bulletArray->bulletTexture.width, bulletArray->bulletTexture.height},
@@ -40,6 +37,7 @@ void DrawBullets(BulletArray *bulletArray)
                 bulletArray->bullets[i].hitbox.height},
             (Vector2){bulletArray->bullets[i].hitbox.width / 2, bulletArray->bullets[i].hitbox.height / 2},
             bulletArray->bullets[i].angle * (180.0f / PI),
-            WHITE);
+            WHITE
+        );
     }
 }

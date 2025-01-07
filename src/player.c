@@ -123,12 +123,14 @@ void UpdatePlayer(Player *player, Arena *arena)
             player->lives -= 1;
             player->invulnerability = 2;
 
-            // Create explosion
+            // Realloc if needed
             if (arena->explosionArray.size == arena->explosionArray.logicalSize)
             {
                 arena->explosionArray.explosions = realloc(arena->explosionArray.explosions, sizeof(Explosion) * (arena->explosionArray.size + 1));
                 arena->explosionArray.size++;
             }
+
+            // Set explosion position
             int x = collisionPt.x;
             int y = collisionPt.y;
             int width = arena->explosionArray.explosionSize.x;
@@ -138,7 +140,7 @@ void UpdatePlayer(Player *player, Arena *arena)
             arena->explosionArray.explosions[arena->explosionArray.logicalSize] = (Explosion){(Rectangle){x, y, width, height}, 0, 0};
             arena->explosionArray.logicalSize++;
 
-            // Delete bullet
+            // Delete bullet 
             arena->bulletArray.bullets[i] = arena->bulletArray.bullets[arena->bulletArray.logicalSize - 1];
             arena->bulletArray.logicalSize--;
             i--;

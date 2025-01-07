@@ -52,9 +52,9 @@ void UpdateDeathScreen(Level *level)
         deathScreen->opacity = 255;
     }
 
-    if ((IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) && deathScreen->buttons.selected < deathScreen->buttons.count - 1)
+    if ((IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) && deathScreen->buttons.selected < deathScreen->buttons.count - 1 && level->player.timeSinceDeath > 1.5f)
         deathScreen->buttons.selected += 1;
-    if ((IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)) && deathScreen->buttons.selected > 0)
+    if ((IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)) && deathScreen->buttons.selected > 0 && level->player.timeSinceDeath > 1.5f)
         deathScreen->buttons.selected -= 1;
 
     if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE))
