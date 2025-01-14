@@ -78,12 +78,13 @@ void CreateLevel(int levelNumber)
     level.arena.gunArray.numberOfGunsPerSide = 10;
     level.arena.gunArray.gunAreaSize = 0.15f;
     level.arena.gunArray.gunTextureOffset = 0.0f;
-    level.arena.gunArray.gunOffset = 0.1f;
-    level.arena.gunArray.gunScaling = 0.5f;
+    level.arena.gunArray.gunOffset = 0.0f;
+    level.arena.gunArray.gunScaling = 0.3f;
     level.arena.gunArray.gunFireDelay = 7;
     level.arena.gunArray.gunFireDelayDeviation = 6;
     level.arena.gunArray.gunFireAngleDeviation = 40;
-    strcpy(level.assets.gunTexturePath, "assets/textures/arena/guns/lasergun.png");
+    level.arena.gunArray.animationSpeed = 0.05f;
+    strcpy(level.assets.gunTexturePath, "assets/textures/arena/guns/drone_thick.png");
 
     // Bullet properties
     level.arena.bulletArray.bulletSize = (Vector2){0.025f, 0.013f};
@@ -120,9 +121,15 @@ void CreateLevel(int levelNumber)
 
 void UpdateLevel(Level *level)
 {
+    // Restart level
+    if (IsKeyPressed(KEY_R))
+        *level = LoadLevel(level->number);
 
+    // Update player
     if (level->player.lives > 0)
     {
+        UpdateGuns(&level->arena.gunArray);
+
         UpdatePlayer(&level->player, &level->arena);
 
         ShootGuns(&level->arena.gunArray, &level->arena.bulletArray);

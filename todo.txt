@@ -1,0 +1,9 @@
+shoot pattern
+dash
+sound
+change fireball texture
+levels or endless mode
+reset button
+player shield invicibility
+hearts
+timer during levels

@@ -7,7 +7,6 @@
 
 void CreateGuns(GunArray *gunArray, int arenaCenterSize)
 {
-
     gunArray->guns = (Gun *)malloc(gunArray->numberOfGunsPerSide * 4 * sizeof(Gun));
     if (gunArray->guns == NULL)
     {
@@ -50,7 +49,7 @@ void CreateGuns(GunArray *gunArray, int arenaCenterSize)
 
             // add random delay before 1st shot
             float delay = (float)GetRandomValue(0, 500) / 1000;
-            gunArray->guns[side * gunArray->numberOfGunsPerSide + i] = (Gun){x, y, gunSide, delay, timeBetweenShot};
+            gunArray->guns[side * gunArray->numberOfGunsPerSide + i] = (Gun){x, y, gunSide, delay, timeBetweenShot, 0, 0};
         }
     }
 }
@@ -60,7 +59,7 @@ void DrawGuns(GunArray *gunArray)
     int gunSize = gunArray->gunScaling * gunArray->gunAreaSize;
     int gunSizeX, gunSizeY;
 
-    float gunRatio = (float)gunArray->gunTexture.width / gunArray->gunTexture.height;
+    float gunRatio = 32.0f / (float)gunArray->gunTexture.height;
 
     if (gunRatio < 1)
     {
@@ -98,12 +97,35 @@ void DrawGuns(GunArray *gunArray)
         }
         DrawTexturePro(
             gunArray->gunTexture,
-            (Rectangle){0, 0, flipY * gunArray->gunTexture.width, gunArray->gunTexture.height},
+            (Rectangle){gunArray->guns[i].currentFrame * 32, 0, flipY * 32, 32},
             (Rectangle){gunArray->guns[i].x, gunArray->guns[i].y + gunArray->gunTextureOffset * gunArray->gunAreaSize, gunSizeX, gunSizeY},
             (Vector2){gunSizeX / 2, gunSizeY / 2},
             rotation,
             WHITE);
-        DrawRectangle(gunArray->guns[i].x, gunArray->guns[i].y, 5, 5, PURPLE);
+    }
+}
+
+void UpdateGuns(GunArray *gunArray)
+{
+    for (int i = 0; i < gunArray->numberOfGunsPerSide*4; i++)
+    {
+
+        if (gunArray->guns[i].timeSinceLastUpdate < gunArray->animationSpeed)
+        {
+            gunArray->guns[i].timeSinceLastUpdate += deltaTime;
+        }
+        else
+        {
+            if (gunArray->guns[i].currentFrame == 7)
+            {
+                gunArray->guns[i].currentFrame = 0;
+            }
+            else
+            {
+                gunArray->guns[i].currentFrame++;
+                gunArray->guns[i].timeSinceLastUpdate = 0;
+            }
+        }
     }
 }
 

@@ -10,11 +10,14 @@ typedef struct Gun
     int side;
     float timeSinceLastShot;
     float timeBetweenShot;
+    float timeSinceLastUpdate;
+    int currentFrame;
 } Gun;
 
 typedef struct GunArray
 {
     Texture2D gunTexture;
+    float animationSpeed;
     float gunOffset;
     float gunScaling;
     float gunTextureOffset;
@@ -38,5 +41,6 @@ enum Side
 void CreateGuns(GunArray *gunArray, int arenaCenterSize);
 void DrawGuns(GunArray *gunArray);
 void ShootGuns(GunArray *gunArray, BulletArray *bulletArray);
+void UpdateGuns(GunArray *gunArray);
 
 #endif

@@ -8,20 +8,27 @@
 void InitializeGame(Game *game)
 {
 
-#if defined(PLATFORM_DESKTOP)
-    platform = DESKTOP;
-#elif defined(PLATFORM_ANDROID)
-    platform = WEB;
-#elif defined(PLATFORM_WEB)
-    platform = ANDROID;
-#endif
+    #if defined(PLATFORM_DESKTOP)
+        platform = DESKTOP;
+    #elif defined(PLATFORM_WEB)
+        platform = WEB;
+    #elif defined(PLATFORM_ANDROID)
+        platform = ANDROID;
+    #endif
 
     gameState = MAIN_MENU;
 
     // SetConfigFlags(FLAG_FULLSCREEN_MODE);
     SetConfigFlags(FLAG_WINDOW_UNDECORATED);
 
-    InitWindow(0, 0, gameName);
+    if (platform == WEB)
+    {        
+        InitWindow(1, 1, gameName);
+    } 
+    else
+    {
+        InitWindow(0, 0, gameName);
+    } 
 
     windowWidth = GetMonitorWidth(GetCurrentMonitor());
     windowHeight = GetMonitorHeight(GetCurrentMonitor());
