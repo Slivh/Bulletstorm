@@ -10,7 +10,6 @@ typedef struct MainMenu
     Buttons buttons;
     float titleFontSize;
     float titleSpacing;
-    Vector2 titleSize;
     Vector2 titlePosition;
 } MainMenu;
 

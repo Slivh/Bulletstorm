@@ -43,6 +43,7 @@
 		"stdexcept": "c",
 		"tuple": "c",
 		"type_traits": "c",
-		"time.h": "c"
+		"time.h": "c",
+		"difficulty_menu.h": "c"
 	}
 }

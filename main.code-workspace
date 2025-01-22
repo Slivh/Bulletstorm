@@ -24,6 +24,7 @@
 			"title_screen.h": "c",
 			"buttons.h": "c",
 			"string.h": "c",
+			"dificulty_menu..h": "c",
 			"system_error": "c",
 			"Makefile.Android": "makefile"
 		}

@@ -20,6 +20,8 @@ void SaveLevel(int levelNumber, Level *level)
 
 Level LoadLevel(int levelNumber)
 {
+    gameState = IN_GAME;
+
     Level level = {0};
     char filename[32];
     snprintf(filename, sizeof(filename), "assets/levels/level_%d.bin", levelNumber);
@@ -88,7 +90,7 @@ void CreateLevel(int levelNumber)
 
     // Bullet properties
     level.arena.bulletArray.bulletSize = (Vector2){0.025f, 0.013f};
-    level.arena.bulletArray.bulletSpeed = 0.25f;
+    level.arena.bulletArray.bulletSpeed = 0.55f;
     level.arena.bulletArray.size = 0;
     level.arena.bulletArray.logicalSize = 0;
     strcpy(level.assets.bulletTexturePath, "assets/textures/arena/guns/fireball.png");
@@ -170,7 +172,9 @@ void DrawLevel(Level *level)
 
     DrawExplosions(&level->arena.explosionArray);
 
-    // DrawText(TextFormat("timer: %.2fs", level->timer), 20, 50, 40, RED);
+    DrawText(TextFormat("Lives: %d", level->player.lives), 0.06f*(float)gameSize, 0.07f*(float)gameSize, 0.03f*(float)gameSize, RAYWHITE);
+    DrawText(TextFormat("%.2f", level->timer), gameSize - (0.15f*(float)gameSize), 0.05f*(float)gameSize, 0.03f*(float)gameSize, RAYWHITE);
+
     if (level->player.timeSinceDeath)
     {
         DrawDeathScreen(&level->deathScreen);

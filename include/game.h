@@ -3,6 +3,7 @@
 
 #include "level.h"
 #include "main_menu.h"
+#include "difficulty_menu.h"
 
 extern int windowWidth;
 extern int windowHeight;
@@ -16,7 +17,8 @@ extern int platform;
 enum State
 {
     MAIN_MENU,
-    IN_GAME
+    IN_GAME,
+    DIFFICULTY_MENU
 };
 
 enum Platform
@@ -35,6 +37,7 @@ typedef struct Game
     Level level;
     Texture2D backgroundTexture;
     MainMenu mainMenu;
+    DifficultyMenu difficultyMenu;
 } Game;
 
 void UpdateGame(Game *game);

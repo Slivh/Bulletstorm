@@ -20,7 +20,7 @@ int main()
 
     InitializeGame(&game);
 
-    CreateLevel(1);
+    // CreateLevel(3);
 
     InitializeMainMenu(&game);
 

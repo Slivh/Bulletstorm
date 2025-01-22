@@ -20,8 +20,8 @@ void InitializeMainMenu(Game *game)
     mainMenu->titleFontSize = 0.15f * (float)gameSize;
     mainMenu->titleSpacing = 0.06 * mainMenu->titleFontSize;
 
-    mainMenu->titleSize = MeasureTextEx(gameFont, gameName, mainMenu->titleFontSize, mainMenu->titleSpacing);
-    mainMenu->titlePosition = (Vector2){windowWidth / 2 - mainMenu->titleSize.x / 2, windowHeight / 4 - mainMenu->titleSize.y / 2};
+    Vector2 titleSize = MeasureTextEx(gameFont, gameName, mainMenu->titleFontSize, mainMenu->titleSpacing);
+    mainMenu->titlePosition = (Vector2){windowWidth / 2 - titleSize.x / 2, windowHeight / 4 - titleSize.y / 2};
 }
 
 void UpdateMainMenu(Game *game)
@@ -39,8 +39,9 @@ void UpdateMainMenu(Game *game)
     {
         if (mainMenu->buttons.selected == 0)
         {
-            gameState = IN_GAME;
-            game->level = LoadLevel(1);
+            gameState = DIFFICULTY_MENU;
+            InitializeDifficultyMenu(&game->difficultyMenu);
+            // game->level = LoadLevel(1);
         }
         else if (mainMenu->buttons.selected == 1)
         {
@@ -63,7 +64,7 @@ void DrawMainMenu(Game *game)
     Color color;
     for (int i = 0; i < mainMenu->buttons.count; i++)
     {
-        color = (mainMenu->buttons.selected == i) ? deathRed : WHITE;
+        color = (mainMenu->buttons.selected == i) ? deathRed : RAYWHITE;
 
         Vector2 textSize = MeasureTextEx(gameFont, mainMenu->buttons.names[i], mainMenu->buttons.fontSize, 0.06f * mainMenu->buttons.fontSize);
         // DrawRectangle(windowWidth/2 - textSize.x/2, windowHeight/2 + textSize.y * i + mainMenu->buttons.margin * i, textSize.x, textSize.y, RED);

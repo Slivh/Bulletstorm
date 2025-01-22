@@ -140,7 +140,7 @@ void UpdatePlayer(Player *player, Arena *arena)
             arena->explosionArray.explosions[arena->explosionArray.logicalSize] = (Explosion){(Rectangle){x, y, width, height}, 0, 0};
             arena->explosionArray.logicalSize++;
 
-            // Delete bullet 
+            // Delete bullet
             arena->bulletArray.bullets[i] = arena->bulletArray.bullets[arena->bulletArray.logicalSize - 1];
             arena->bulletArray.logicalSize--;
             i--;

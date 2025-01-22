@@ -6,6 +6,12 @@
 
 void LoadLevelAssets(Level *level)
 {
+    printf("path bg: %s\n", level->assets.backgroundTexturePath);
+    printf("path gun: %s\n", level->assets.gunTexturePath);
+    printf("path player: %s\n", level->assets.playerTexturePath);
+    printf("path bullet: %s\n", level->assets.bulletTexturePath);
+    printf("path explosion: %s\n", level->assets.explosionTexturePath);
+
     level->arena.backgroundTexture = LoadTexture(level->assets.backgroundTexturePath);
     level->arena.gunArray.gunTexture = LoadTexture(level->assets.gunTexturePath);
     level->player.playerTexture = LoadTexture(level->assets.playerTexturePath);

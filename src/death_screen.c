@@ -75,13 +75,17 @@ void DrawDeathScreen(DeathScreen *deathScreen)
     Color color = deathRed;
     color.a = deathScreen->opacity;
 
+    // Draw black background fade
     DrawRectangle(0, 0, gameSize, gameSize, (Color){0, 0, 0, color.a});
+
+    // Draw death message and timer
     DrawTextEx(gameFont, deathScreen->message, deathScreen->messagePosition, deathScreen->messageFontSize, deathScreen->messageSpacing, color);
     DrawTextEx(gameFont, deathScreen->timer, deathScreen->timerPosition, deathScreen->timerFontSize, deathScreen->timerSpacing, (Color){255, 255, 255, color.a});
 
+    // Draw buttons
     for (int i = 0; i < deathScreen->buttons.count; i++)
     {
-        color = (deathScreen->buttons.selected == i) ? deathRed : WHITE;
+        color = (deathScreen->buttons.selected == i) ? deathRed : RAYWHITE;
         color.a = deathScreen->opacity;
 
         Vector2 textSize = MeasureTextEx(gameFont, deathScreen->buttons.names[i], deathScreen->buttons.fontSize, 0.06f * deathScreen->buttons.fontSize);

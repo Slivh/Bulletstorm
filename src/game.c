@@ -22,13 +22,13 @@ void InitializeGame(Game *game)
     SetConfigFlags(FLAG_WINDOW_UNDECORATED);
 
     if (platform == WEB)
-    {        
+    {
         InitWindow(1, 1, gameName);
-    } 
+    }
     else
     {
         InitWindow(0, 0, gameName);
-    } 
+    }
 
     windowWidth = GetMonitorWidth(GetCurrentMonitor());
     windowHeight = GetMonitorHeight(GetCurrentMonitor());
@@ -71,6 +71,10 @@ void UpdateGame(Game *game)
     {
         UpdateMainMenu(game);
     }
+    else if (gameState == DIFFICULTY_MENU)
+    {
+        UpdateDifficultyMenu(game);
+    }
 }
 
 void DrawGame(Game *game)
@@ -91,6 +95,10 @@ void DrawGame(Game *game)
     else if (gameState == MAIN_MENU)
     {
         DrawMainMenu(game);
+    }
+    else if (gameState == DIFFICULTY_MENU)
+    {
+        DrawDifficultyMenu(&game->difficultyMenu);
     }
 
     EndDrawing();
