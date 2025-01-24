@@ -86,7 +86,7 @@ void CreateLevel(int levelNumber)
     level.arena.gunArray.gunFireDelayDeviation = 6;
     level.arena.gunArray.gunFireAngleDeviation = 40;
     level.arena.gunArray.animationSpeed = 0.05f;
-    strcpy(level.assets.gunTexturePath, "assets/textures/arena/guns/drone_thick.png");
+    strcpy(level.assets.gunTexturePath, "assets/textures/arena/guns/drone_new.png");
 
     // Bullet properties
     level.arena.bulletArray.bulletSize = (Vector2){0.025f, 0.013f};
