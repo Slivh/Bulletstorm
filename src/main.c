@@ -4,15 +4,16 @@
 #include "game.h"
 #include "main_menu.h"
 #include <string.h>
+#include <setjmp.h>
 
 int windowWidth;
 int windowHeight;
 int gameState;
 int gameSize;
-char gameName[11] = "Bulletstorm";
+char* gameName = "Bulletstorm";
 float deltaTime = 0;
 Font gameFont;
-int platform;
+jmp_buf buf;
 
 int main()
 {
@@ -24,12 +25,16 @@ int main()
 
     InitializeMainMenu(&game);
 
+    if (setjmp(buf))
+        CloseWindow();
+
     while (!WindowShouldClose())
     {
         UpdateGame(&game);
-
+        
         DrawGame(&game);
     }
+
     CloseWindow();
 
     return 0;

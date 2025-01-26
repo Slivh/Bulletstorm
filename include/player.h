@@ -32,9 +32,12 @@ typedef struct Player
     Color color;
     Rectangle textureRec;
     Vector2 textureOffset;
+    Texture2D heartFullTexture;
+    Texture2D heartEmptyTexture;
+    Sound deathSound;
 } Player;
 
 void DrawPlayer(Player *player);
 void UpdatePlayer(Player *player, Arena *arena);
-
+void DrawPlayerHealth(int playerHealth, Texture2D heartFullTexture, Texture2D heartEmptyTexture);
 #endif

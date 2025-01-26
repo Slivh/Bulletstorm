@@ -19,6 +19,7 @@ typedef struct ExplosionArray
     Explosion *explosions;
     int size;
     int logicalSize;
+    Sound explosionSound;
 } ExplosionArray;
 
 void UpdateExplosions(ExplosionArray *explosionArray);

@@ -28,6 +28,8 @@ void UpdateDifficultyMenu(Game *game)
 {
     DifficultyMenu *difficultyMenu = &game->difficultyMenu;
 
+    UpdateMusicStream(game->mainMenu.music);
+
     // Update selected button
     if ((IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) && difficultyMenu->buttons.selected < difficultyMenu->buttons.count - 1)
         difficultyMenu->buttons.selected += 1;
@@ -41,6 +43,8 @@ void UpdateDifficultyMenu(Game *game)
     }
     else if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE))
     {
+        StopMusicStream(game->mainMenu.music);
+    
         if (difficultyMenu->buttons.selected == 0)
         {
             game->level = LoadLevel(0);

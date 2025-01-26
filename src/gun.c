@@ -182,6 +182,9 @@ void ShootGuns(GunArray *gunArray, BulletArray *bulletArray)
             float randomFireRate = (float)GetRandomValue(minRate, maxRate) / 1000.0f;
 
             gunArray->guns[i].timeBetweenShot = randomFireRate;
+
+            PlaySound(gunArray->firingSound);
+            SetSoundVolume(gunArray->firingSound, 0.5f);
         }
         else
         {

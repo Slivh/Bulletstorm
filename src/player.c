@@ -11,10 +11,10 @@ void DrawPlayer(Player *player)
     player->color = WHITE;
 
     // Make player if has 1 life
-    if (player->lives == 1)
-    {
-        player->color = RED;
-    }
+    // if (player->lives == 1)
+    // {
+    //     player->color = RED;
+    // }
     // Make player green if invulnerable
     if (player->invulnerability > 0)
     {
@@ -30,7 +30,7 @@ void DrawPlayer(Player *player)
     DrawTexturePro(player->playerTexture, (Rectangle){player->direction, player->currentFrame * 24, 16, 24}, player->textureRec, Vector2Zero(), 0, player->color);
 
     // Draw player hitbox
-    // DrawRectangleLines(player->hitbox.x, player->hitbox.y, player->hitbox.width, player->hitbox.height, player->color);
+    DrawRectangleLines(player->hitbox.x, player->hitbox.y, player->hitbox.width, player->hitbox.height, player->color);
 }
 
 void UpdatePlayer(Player *player, Arena *arena)
@@ -144,6 +144,9 @@ void UpdatePlayer(Player *player, Arena *arena)
             arena->bulletArray.bullets[i] = arena->bulletArray.bullets[arena->bulletArray.logicalSize - 1];
             arena->bulletArray.logicalSize--;
             i--;
+
+            // Play explosion sound
+            PlaySound(arena->explosionArray.explosionSound);
         }
     }
 
@@ -174,5 +177,35 @@ void UpdatePlayer(Player *player, Arena *arena)
         {
             player->currentFrame = 1;
         }
+    }
+}
+
+void DrawPlayerHealth(int playerHealth, Texture2D heartFullTexture, Texture2D heartEmptyTexture)
+{
+    for (int i = 0; i<3; i++) {
+        if (i<playerHealth)
+        {
+            DrawTexturePro(
+                heartFullTexture,
+                (Rectangle){0, 0, heartFullTexture.width, heartFullTexture.height},
+                (Rectangle){0.05f*gameSize + 0.04f*i*gameSize, 0.07f*gameSize, 0.03f*gameSize, 0.03f*gameSize},
+                (Vector2){0, 0},
+                0,
+                WHITE
+            );
+        }
+        else
+        {
+            DrawTexturePro(
+                heartEmptyTexture,
+                (Rectangle){0, 0, heartEmptyTexture.width, heartEmptyTexture.height},
+                (Rectangle){0.05f*gameSize + 0.04f*i*gameSize, 0.07f*gameSize, 0.03f*gameSize, 0.03f*gameSize},
+                (Vector2){0, 0},
+                0,
+                WHITE
+            );
+
+        }
+        
     }
 }

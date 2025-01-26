@@ -23,7 +23,8 @@ typedef struct DeathScreen
     Vector2 timerSize;
     Vector2 timerPosition;
     Buttons buttons;
-
+    // KEEP MUSIC LAST ELEMENT
+    Music music;
 } DeathScreen;
 
 void InitializeDeathScreen(Level *level);

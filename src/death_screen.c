@@ -33,15 +33,25 @@ void InitializeDeathScreen(Level *level)
     strcpy(deathScreen->buttons.names[0], "Restart");
     strcpy(deathScreen->buttons.names[1], "Main menu");
     deathScreen->buttons.selected = 0;
+
+    PauseMusicStream(level->music);
 }
 
 void UpdateDeathScreen(Level *level)
 {
     DeathScreen *deathScreen = &level->deathScreen;
 
+    if (!IsMusicStreamPlaying(deathScreen->music))
+    {
+        PlayMusicStream(deathScreen->music);
+        SetMusicVolume(deathScreen->music, 0.3f);
+    }
+    UpdateMusicStream(deathScreen->music);
+
     if (level->player.timeSinceDeath < deathScreen->animationDelay + deathScreen->animationDuration && level->player.timeSinceDeath > deathScreen->animationDelay)
     {
         deathScreen->opacity = (level->player.timeSinceDeath - deathScreen->animationDelay) / deathScreen->animationDuration * 255.0f;
+        // SetMusicVolume(level->music, 0);
     }
     else if (level->player.timeSinceDeath <= deathScreen->animationDelay)
     {
@@ -61,10 +71,13 @@ void UpdateDeathScreen(Level *level)
     {
         if (deathScreen->buttons.selected == 0)
         {
-            *level = LoadLevel(level->number);
+            StopMusicStream(deathScreen->music);
+            RestartLevel(level);
         }
         else if (deathScreen->buttons.selected == 1)
         {
+            StopMusicStream(deathScreen->music);
+            UnloadLevelAssets(level);
             gameState = MAIN_MENU;
         }
     }

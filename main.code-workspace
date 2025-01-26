@@ -26,7 +26,10 @@
 			"string.h": "c",
 			"dificulty_menu..h": "c",
 			"system_error": "c",
-			"Makefile.Android": "makefile"
+			"Makefile.Android": "makefile",
+			"death_screen.h": "c",
+			"*.tcc": "cpp",
+			"format": "c"
 		}
 	}
 }

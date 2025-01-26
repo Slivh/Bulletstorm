@@ -6,6 +6,7 @@
 #include <string.h>
 #include "death_screen.h"
 #include "game.h"
+#include "assets.h"
 
 void SaveLevel(int levelNumber, Level *level)
 {
@@ -56,11 +57,11 @@ Level LoadLevel(int levelNumber)
 
     CreateGuns(&level.arena.gunArray, level.arena.center.width);
 
-    level.arena.bulletArray.bullets = (Bullet *)malloc(0);
+    level.arena.bulletArray.bullets = (Bullet*)malloc(1);
     level.arena.bulletArray.bulletSpeed *= gameSize;
 
     level.arena.explosionArray.explosionSize = Vector2Scale(level.arena.explosionArray.explosionSize, gameSize);
-    level.arena.explosionArray.explosions = (Explosion *)malloc(0);
+    level.arena.explosionArray.explosions = (Explosion*)malloc(1);
 
     LoadLevelAssets(&level);
 
@@ -71,7 +72,7 @@ void CreateLevel(int levelNumber)
 {
     Level level;
 
-    strcpy(level.assets.backgroundTexturePath, "assets/textures/arena/maps/spring.png");
+    strcpy(level.assets.backgroundTexturePath, "assets/textures/arena/maps/winter.png");
 
     level.timer = 0;
 
@@ -79,21 +80,22 @@ void CreateLevel(int levelNumber)
     level.arena.gunArray.isGunRotated = true;
     level.arena.gunArray.numberOfGunsPerSide = 10;
     level.arena.gunArray.gunAreaSize = 0.15f;
-    level.arena.gunArray.gunTextureOffset = 0.0f;
+    level.arena.gunArray.gunTextureOffset = 0;
     level.arena.gunArray.gunOffset = 0.0f;
     level.arena.gunArray.gunScaling = 0.3f;
     level.arena.gunArray.gunFireDelay = 7;
     level.arena.gunArray.gunFireDelayDeviation = 6;
     level.arena.gunArray.gunFireAngleDeviation = 40;
     level.arena.gunArray.animationSpeed = 0.05f;
-    strcpy(level.assets.gunTexturePath, "assets/textures/arena/guns/drone_new.png");
+    strcpy(level.assets.gunTexturePath, "assets/textures/arena/guns/drone.png");
+    strcpy(level.assets.firingSoundPath, "assets/audio/sound/pew.wav");
 
     // Bullet properties
-    level.arena.bulletArray.bulletSize = (Vector2){0.025f, 0.013f};
+    level.arena.bulletArray.bulletSize = (Vector2){0.025f, 0.01};
     level.arena.bulletArray.bulletSpeed = 0.55f;
     level.arena.bulletArray.size = 0;
     level.arena.bulletArray.logicalSize = 0;
-    strcpy(level.assets.bulletTexturePath, "assets/textures/arena/guns/fireball.png");
+    strcpy(level.assets.bulletTexturePath, "assets/textures/arena/guns/laser.png");
 
     // Explosions properties
     level.arena.explosionArray.animationSpeed = 0.05f;
@@ -101,6 +103,7 @@ void CreateLevel(int levelNumber)
     level.arena.explosionArray.size = 0;
     level.arena.explosionArray.logicalSize = 0;
     strcpy(level.assets.explosionTexturePath, "assets/textures/arena/guns/explosion.png");
+    strcpy(level.assets.explosionSoundPath, "assets/audio/sound/explosion.ogg");
 
     // Player properties
     level.player.isDead = false;
@@ -115,7 +118,14 @@ void CreateLevel(int levelNumber)
     level.player.speed = 0.3f;
     level.player.timeSinceDeath = 0;
     level.player.color = WHITE;
-    strcpy(level.assets.playerTexturePath, "assets/textures/player/blue.png");
+    strcpy(level.assets.playerTexturePath, "assets/textures/player/white.png");
+    strcpy(level.assets.deathSoundPath, "assets/audio/sound/gameover.wav");
+
+    strcpy(level.assets.heartFullTexturePath, "assets/textures/player/heart/heart_full.png");
+    strcpy(level.assets.heartEmptyTexturePath, "assets/textures/player/heart/heart_empty.png");
+
+    strcpy(level.assets.levelMusicPath, "assets/audio/music/3.wav");
+    strcpy(level.assets.deathScreenMusicPath, "assets/audio/music/ending.wav");
 
     // Save struct to file
     SaveLevel(levelNumber, &level);
@@ -125,7 +135,7 @@ void UpdateLevel(Level *level)
 {
     // Restart level
     if (IsKeyPressed(KEY_R))
-        *level = LoadLevel(level->number);
+        RestartLevel(level);
 
     // Update player
     if (level->player.lives > 0)
@@ -148,6 +158,14 @@ void UpdateLevel(Level *level)
     if (!level->player.timeSinceDeath)
     {
         level->timer += deltaTime;
+
+        // Update music
+        if (!IsMusicStreamPlaying(level->music))
+        {
+            PlayMusicStream(level->music);
+            SetMusicVolume(level->music, 0.2f);
+        }
+        UpdateMusicStream(level->music);
     }
     else
     {
@@ -155,6 +173,7 @@ void UpdateLevel(Level *level)
         {
             InitializeDeathScreen(level);
             level->player.isDead = true;
+            PlaySound(level->player.deathSound);
         }
         UpdateDeathScreen(level);
     }
@@ -172,13 +191,48 @@ void DrawLevel(Level *level)
 
     DrawExplosions(&level->arena.explosionArray);
 
-    DrawText(TextFormat("Lives: %d", level->player.lives), 0.06f*(float)gameSize, 0.07f*(float)gameSize, 0.03f*(float)gameSize, RAYWHITE);
-    DrawText(TextFormat("%.2f", level->timer), gameSize - (0.15f*(float)gameSize), 0.05f*(float)gameSize, 0.03f*(float)gameSize, RAYWHITE);
+    DrawPlayerHealth(level->player.lives, level->player.heartFullTexture, level->player.heartEmptyTexture);
+    DrawText(TextFormat("%.2f", level->timer), gameSize - (0.15f*(float)gameSize), 0.07f*(float)gameSize, 0.04f*(float)gameSize, RAYWHITE);
 
     if (level->player.timeSinceDeath)
     {
         DrawDeathScreen(&level->deathScreen);
     }
-
     // DrawText(TextFormat("CURRENT FPS: %i", (int)(1.0f/deltaTime)), 0, 0, 40, RED);
+}
+
+void RestartLevel(Level *level)
+{
+    // Reset player
+    level->player.hitbox.x = gameSize / 2 - level->player.hitbox.width / 2;
+    level->player.hitbox.y = gameSize / 2 - level->player.hitbox.height / 2;
+    level->player.timeSinceDeath = 0;
+    level->player.color = WHITE;
+    level->player.currentFrame = 0;
+    level->player.timeSinceLastUpdate = 0;
+    level->player.isDead = false;
+    level->player.lives = 3;
+    level->player.invulnerability = 0;
+
+    // Reset bullets
+    level->arena.bulletArray.size = 0;
+    level->arena.bulletArray.logicalSize = 0;
+    level->arena.bulletArray.bullets = (Bullet*)malloc(1);
+
+    // Reset explosions
+    level->arena.explosionArray.size = 0;
+    level->arena.explosionArray.logicalSize = 0;
+    level->arena.explosionArray.explosions = (Explosion*)malloc(1);
+
+    // Restart music
+    SeekMusicStream(level->music, 0.0f);
+    ResumeMusicStream(level->music);
+
+    // Reset death screen
+    memset(&level->deathScreen, 0, sizeof(level->deathScreen) - sizeof(Music));
+
+    // Reset timer
+    level->timer = 0.0f;
+
+
 }

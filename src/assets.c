@@ -6,20 +6,39 @@
 
 void LoadLevelAssets(Level *level)
 {
-    printf("path bg: %s\n", level->assets.backgroundTexturePath);
-    printf("path gun: %s\n", level->assets.gunTexturePath);
-    printf("path player: %s\n", level->assets.playerTexturePath);
-    printf("path bullet: %s\n", level->assets.bulletTexturePath);
-    printf("path explosion: %s\n", level->assets.explosionTexturePath);
-
     level->arena.backgroundTexture = LoadTexture(level->assets.backgroundTexturePath);
     level->arena.gunArray.gunTexture = LoadTexture(level->assets.gunTexturePath);
-    level->player.playerTexture = LoadTexture(level->assets.playerTexturePath);
     level->arena.bulletArray.bulletTexture = LoadTexture(level->assets.bulletTexturePath);
     level->arena.explosionArray.explosionTexture = LoadTexture(level->assets.explosionTexturePath);
+    level->player.playerTexture = LoadTexture(level->assets.playerTexturePath);
+    level->player.heartFullTexture = LoadTexture(level->assets.heartFullTexturePath);
+    level->player.heartEmptyTexture = LoadTexture(level->assets.heartEmptyTexturePath);
+
+    level->music = LoadMusicStream(level->assets.levelMusicPath);
+    level->deathScreen.music = LoadMusicStream(level->assets.deathScreenMusicPath);
+
+    level->arena.explosionArray.explosionSound = LoadSound(level->assets.explosionSoundPath);
+    level->arena.gunArray.firingSound = LoadSound(level->assets.firingSoundPath);
+    level->player.deathSound = LoadSound(level->assets.deathSoundPath);
 }
 
 void LoadGameAssets(Game *game)
 {
     gameFont = LoadFont("assets/fonts/alagard.png");
+    game->mainMenu.music = LoadMusicStream("assets/audio/music/main_menu.wav");
+}
+
+void UnloadLevelAssets(Level *level)
+{
+    UnloadTexture(level->arena.backgroundTexture);
+    UnloadTexture(level->arena.gunArray.gunTexture);
+    UnloadTexture(level->arena.bulletArray.bulletTexture);
+    UnloadTexture(level->arena.explosionArray.explosionTexture);
+    UnloadTexture(level->player.playerTexture);
+    UnloadTexture(level->player.heartFullTexture);
+    UnloadTexture(level->player.heartEmptyTexture);
+
+    UnloadMusicStream(level->music);
+
+    UnloadSound(level->arena.explosionArray.explosionSound);
 }

@@ -4,28 +4,22 @@
 #include "level.h"
 #include "main_menu.h"
 #include "difficulty_menu.h"
+#include <setjmp.h>
 
 extern int windowWidth;
 extern int windowHeight;
 extern int gameState;
 extern int gameSize;
-extern char gameName[11];
+extern char* gameName;
 extern float deltaTime;
 extern Font gameFont;
-extern int platform;
+extern jmp_buf buf; 
 
 enum State
 {
     MAIN_MENU,
     IN_GAME,
     DIFFICULTY_MENU
-};
-
-enum Platform
-{
-    WEB,
-    DESKTOP,
-    ANDROID
 };
 
 typedef struct Game

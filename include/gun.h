@@ -27,6 +27,7 @@ typedef struct GunArray
     float gunFireDelay;
     float gunFireDelayDeviation;
     int gunFireAngleDeviation;
+    Sound firingSound;
     Gun *guns;
 } GunArray;
 

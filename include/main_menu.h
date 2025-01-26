@@ -11,6 +11,7 @@ typedef struct MainMenu
     float titleFontSize;
     float titleSpacing;
     Vector2 titlePosition;
+    Music music;
 } MainMenu;
 
 void InitializeMainMenu(Game *game);

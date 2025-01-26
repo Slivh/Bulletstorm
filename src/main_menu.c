@@ -28,6 +28,14 @@ void UpdateMainMenu(Game *game)
 {
     MainMenu *mainMenu = &game->mainMenu;
 
+    if (!IsMusicStreamPlaying(game->mainMenu.music))
+    {
+        PlayMusicStream(game->mainMenu.music);
+        SetMusicVolume(game->mainMenu.music, 0.2f);
+    }    
+
+    UpdateMusicStream(game->mainMenu.music);
+    
     // Update selected button
     if ((IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S)) && mainMenu->buttons.selected < mainMenu->buttons.count - 1)
         mainMenu->buttons.selected += 1;
@@ -48,7 +56,9 @@ void UpdateMainMenu(Game *game)
         }
         else if (mainMenu->buttons.selected == 2)
         {
-            CloseWindow();
+            // Close window
+            // glfwSetWindowShouldClose(platform.handle, 1);
+            longjmp(buf, 1); 
         }
     }
 }

@@ -7,28 +7,18 @@
 
 void InitializeGame(Game *game)
 {
-
-    #if defined(PLATFORM_DESKTOP)
-        platform = DESKTOP;
-    #elif defined(PLATFORM_WEB)
-        platform = WEB;
-    #elif defined(PLATFORM_ANDROID)
-        platform = ANDROID;
-    #endif
-
     gameState = MAIN_MENU;
 
     // SetConfigFlags(FLAG_FULLSCREEN_MODE);
     SetConfigFlags(FLAG_WINDOW_UNDECORATED);
 
-    if (platform == WEB)
-    {
+    #if defined(PLATFORM_WEB)
         InitWindow(1, 1, gameName);
-    }
-    else
-    {
+    #else
         InitWindow(0, 0, gameName);
-    }
+    #endif
+    
+    InitAudioDevice();
 
     windowWidth = GetMonitorWidth(GetCurrentMonitor());
     windowHeight = GetMonitorHeight(GetCurrentMonitor());
@@ -53,7 +43,6 @@ void InitializeGame(Game *game)
     game->camera.target = (Vector2){0};
     game->camera.offset = (Vector2){game->offsetX, game->offsetY};
     game->camera.zoom = 1.0f;
-
     LoadGameAssets(game);
 }
 
