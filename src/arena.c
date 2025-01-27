@@ -11,5 +11,5 @@ void DrawArena(Arena *arena)
         (Vector2){0},
         0,
         WHITE);
-    DrawRectangleLinesEx(arena->center, 2.0f, GREEN);
+    // DrawRectangleLinesEx(arena->center, 2.0f, GREEN);
 }

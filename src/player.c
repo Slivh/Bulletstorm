@@ -30,7 +30,7 @@ void DrawPlayer(Player *player)
     DrawTexturePro(player->playerTexture, (Rectangle){player->direction, player->currentFrame * 24, 16, 24}, player->textureRec, Vector2Zero(), 0, player->color);
 
     // Draw player hitbox
-    DrawRectangleLines(player->hitbox.x, player->hitbox.y, player->hitbox.width, player->hitbox.height, player->color);
+    // DrawRectangleLines(player->hitbox.x, player->hitbox.y, player->hitbox.width, player->hitbox.height, player->color);
 }
 
 void UpdatePlayer(Player *player, Arena *arena)
@@ -206,6 +206,6 @@ void DrawPlayerHealth(int playerHealth, Texture2D heartFullTexture, Texture2D he
             );
 
         }
-        
+
     }
 }

@@ -71,20 +71,35 @@ Level LoadLevel(int levelNumber)
 void CreateLevel(int levelNumber)
 {
     Level level;
-
-    strcpy(level.assets.backgroundTexturePath, "assets/textures/arena/maps/winter.png");
+    char season[16];
+    switch (levelNumber)
+    {
+        case 0:
+            strcpy(season, "spring");
+            break;
+        case 1:
+            strcpy(season, "summer");
+            break;
+        case 2:
+            strcpy(season, "autumn");
+            break;
+        case 3:
+            strcpy(season, "winter");
+            break;
+    }
+    strcpy(level.assets.backgroundTexturePath, TextFormat("assets/textures/arena/maps/%s.png", season));
 
     level.timer = 0;
 
     // Gun properties
     level.arena.gunArray.isGunRotated = true;
-    level.arena.gunArray.numberOfGunsPerSide = 10;
+    level.arena.gunArray.numberOfGunsPerSide = 7 + levelNumber;
     level.arena.gunArray.gunAreaSize = 0.15f;
     level.arena.gunArray.gunTextureOffset = 0;
     level.arena.gunArray.gunOffset = 0.0f;
     level.arena.gunArray.gunScaling = 0.3f;
-    level.arena.gunArray.gunFireDelay = 7;
-    level.arena.gunArray.gunFireDelayDeviation = 6;
+    level.arena.gunArray.gunFireDelay = 10 - levelNumber;
+    level.arena.gunArray.gunFireDelayDeviation = 9 - levelNumber;
     level.arena.gunArray.gunFireAngleDeviation = 40;
     level.arena.gunArray.animationSpeed = 0.05f;
     strcpy(level.assets.gunTexturePath, "assets/textures/arena/guns/drone.png");
@@ -92,7 +107,7 @@ void CreateLevel(int levelNumber)
 
     // Bullet properties
     level.arena.bulletArray.bulletSize = (Vector2){0.025f, 0.01};
-    level.arena.bulletArray.bulletSpeed = 0.55f;
+    level.arena.bulletArray.bulletSpeed = 0.25f + (float)levelNumber/10.0f;
     level.arena.bulletArray.size = 0;
     level.arena.bulletArray.logicalSize = 0;
     strcpy(level.assets.bulletTexturePath, "assets/textures/arena/guns/laser.png");
@@ -118,13 +133,34 @@ void CreateLevel(int levelNumber)
     level.player.speed = 0.3f;
     level.player.timeSinceDeath = 0;
     level.player.color = WHITE;
-    strcpy(level.assets.playerTexturePath, "assets/textures/player/white.png");
+
+    char color[16];
+    switch (levelNumber)
+    {
+        case 0:
+            strcpy(color, "blue");
+            break;
+        case 1:
+            strcpy(color, "blue");
+            break;
+        case 2:
+            strcpy(color, "orange");
+            break;
+        case 3:
+            strcpy(color, "white");
+            break;
+    }
+    strcpy(level.assets.playerTexturePath, TextFormat("assets/textures/player/%s.png", color));
     strcpy(level.assets.deathSoundPath, "assets/audio/sound/gameover.wav");
 
     strcpy(level.assets.heartFullTexturePath, "assets/textures/player/heart/heart_full.png");
     strcpy(level.assets.heartEmptyTexturePath, "assets/textures/player/heart/heart_empty.png");
 
-    strcpy(level.assets.levelMusicPath, "assets/audio/music/3.wav");
+    int music = levelNumber;
+    if (music ==  0)
+        music = 1;
+
+    strcpy(level.assets.levelMusicPath, TextFormat("assets/audio/music/%d.wav", music));
     strcpy(level.assets.deathScreenMusicPath, "assets/audio/music/ending.wav");
 
     // Save struct to file

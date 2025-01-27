@@ -21,7 +21,10 @@ int main()
 
     InitializeGame(&game);
 
-    // CreateLevel(3);
+    CreateLevel(0);
+    CreateLevel(1);
+    CreateLevel(2);
+    CreateLevel(3);
 
     InitializeMainMenu(&game);
 
@@ -31,7 +34,7 @@ int main()
     while (!WindowShouldClose())
     {
         UpdateGame(&game);
-        
+
         DrawGame(&game);
     }
 
