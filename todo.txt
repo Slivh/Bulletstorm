@@ -1,4 +1,4 @@
 shoot pattern
 dash
-player shield invicibility
+player shield invincibility
 scoreboard

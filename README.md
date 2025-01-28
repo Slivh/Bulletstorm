@@ -11,7 +11,7 @@ Le  but est de ne pas se faire toucher par les lasers
 - **Cool combat** – idk le combat est fun
 - **Plusieurs niveaux** – 4 niveaux de différentes difficultés 
 - **Bel esthetique** – Chaque niveaux a un theme différent
-- **Musique entrainante** – Bonne musique que j'ai volé à [SubspaceAudio](https://opengameart.org/content/5-chiptunes-action)
+- **Musique entrainante** – Bonne musique ig
 
 ## Controls
 
@@ -31,6 +31,10 @@ Le  but est de ne pas se faire toucher par les lasers
 - Dash
 - Player shield invincibility
 - Scoreboard
+
+## Credits
+Player texture: https://axulart.itch.io/small-8-direction-characters
+Explosion texture: https://ansimuz.itch.io/explosion-animations-pack
 
 ## License
 
