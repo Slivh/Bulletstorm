@@ -103,20 +103,18 @@ void CreateLevel(int levelNumber)
     level.arena.gunArray.gunFireAngleDeviation = 40;
     level.arena.gunArray.animationSpeed = 0.05f;
     strcpy(level.assets.gunTexturePath, "assets/textures/arena/guns/drone.png");
-    strcpy(level.assets.firingSoundPath, "assets/audio/sound/pew.mp3");
+    strcpy(level.assets.firingSoundPath, "assets/audio/sound/pew.wav");
 
     // Bullet properties
     level.arena.bulletArray.bulletSize = (Vector2){0.025f, 0.01};
     level.arena.bulletArray.bulletSpeed = 0.25f + (float)levelNumber/10.0f;
     level.arena.bulletArray.size = 0;
-    level.arena.bulletArray.logicalSize = 0;
     strcpy(level.assets.bulletTexturePath, "assets/textures/arena/guns/laser.png");
 
     // Explosions properties
     level.arena.explosionArray.animationSpeed = 0.05f;
     level.arena.explosionArray.explosionSize = (Vector2){0.025f, 0.025f};
     level.arena.explosionArray.size = 0;
-    level.arena.explosionArray.logicalSize = 0;
     strcpy(level.assets.explosionTexturePath, "assets/textures/arena/guns/explosion.png");
     strcpy(level.assets.explosionSoundPath, "assets/audio/sound/explosion.ogg");
 
@@ -151,7 +149,7 @@ void CreateLevel(int levelNumber)
             break;
     }
     strcpy(level.assets.playerTexturePath, TextFormat("assets/textures/player/%s.png", color));
-    strcpy(level.assets.deathSoundPath, "assets/audio/sound/gameover.mp3");
+    strcpy(level.assets.deathSoundPath, "assets/audio/sound/gameover.wav");
 
     strcpy(level.assets.heartFullTexturePath, "assets/textures/player/heart/heart_full.png");
     strcpy(level.assets.heartEmptyTexturePath, "assets/textures/player/heart/heart_empty.png");
@@ -252,12 +250,10 @@ void RestartLevel(Level *level)
 
     // Reset bullets
     level->arena.bulletArray.size = 0;
-    level->arena.bulletArray.logicalSize = 0;
     level->arena.bulletArray.bullets = (Bullet*)malloc(1);
 
     // Reset explosions
     level->arena.explosionArray.size = 0;
-    level->arena.explosionArray.logicalSize = 0;
     level->arena.explosionArray.explosions = (Explosion*)malloc(1);
 
     // Restart music

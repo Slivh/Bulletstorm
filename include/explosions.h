@@ -18,7 +18,6 @@ typedef struct ExplosionArray
     float animationSpeed;
     Explosion *explosions;
     int size;
-    int logicalSize;
     Sound explosionSound;
 } ExplosionArray;
 

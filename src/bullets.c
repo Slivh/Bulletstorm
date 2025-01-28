@@ -1,9 +1,11 @@
 #include "bullets.h"
 #include "game.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 void UpdateBullets(BulletArray *bulletArray, Rectangle arenaCenter)
 {
-    for (int i = 0; i < bulletArray->logicalSize; i++)
+    for (int i = 0; i < bulletArray->size; i++)
     {
         bulletArray->bullets[i].hitbox.x += bulletArray->bullets[i].direction.x * deltaTime;
         bulletArray->bullets[i].hitbox.y += bulletArray->bullets[i].direction.y * deltaTime;
@@ -11,8 +13,9 @@ void UpdateBullets(BulletArray *bulletArray, Rectangle arenaCenter)
         {
             if (bulletArray->bullets[i].reachedCenter)
             {
-                bulletArray->bullets[i] = bulletArray->bullets[bulletArray->logicalSize - 1];
-                bulletArray->logicalSize--;
+                bulletArray->size--;
+                bulletArray->bullets[i] = bulletArray->bullets[bulletArray->size];
+                bulletArray->bullets = realloc(bulletArray->bullets, sizeof(Bullet) * (bulletArray->size));
                 i--;
             }
         }
@@ -25,7 +28,7 @@ void UpdateBullets(BulletArray *bulletArray, Rectangle arenaCenter)
 
 void DrawBullets(BulletArray *bulletArray)
 {
-    for (int i = 0; i < bulletArray->logicalSize; i++)
+    for (int i = 0; i < bulletArray->size; i++)
     {
         DrawTexturePro(
             bulletArray->bulletTexture,

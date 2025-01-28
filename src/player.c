@@ -113,7 +113,7 @@ void UpdatePlayer(Player *player, Arena *arena)
     }
 
     // Check if player is hit
-    for (int i = 0; i < arena->bulletArray.logicalSize; i++)
+    for (int i = 0; i < arena->bulletArray.size; i++)
     {
         Vector2 collisionPt = CheckCollisionRotatedRecs(player->hitbox, 0, arena->bulletArray.bullets[i].hitbox, arena->bulletArray.bullets[i].angle);
 
@@ -123,12 +123,9 @@ void UpdatePlayer(Player *player, Arena *arena)
             player->lives -= 1;
             player->invulnerability = 2;
 
-            // Realloc if needed
-            if (arena->explosionArray.size == arena->explosionArray.logicalSize)
-            {
-                arena->explosionArray.explosions = realloc(arena->explosionArray.explosions, sizeof(Explosion) * (arena->explosionArray.size + 1));
-                arena->explosionArray.size++;
-            }
+            // Realloc more memory for new explosion
+            arena->explosionArray.size++;
+            arena->explosionArray.explosions = realloc(arena->explosionArray.explosions, sizeof(Explosion) * arena->explosionArray.size);
 
             // Set explosion position
             int x = collisionPt.x;
@@ -137,12 +134,12 @@ void UpdatePlayer(Player *player, Arena *arena)
             int height = arena->explosionArray.explosionSize.y;
 
             // Create explosion
-            arena->explosionArray.explosions[arena->explosionArray.logicalSize] = (Explosion){(Rectangle){x, y, width, height}, 0, 0};
-            arena->explosionArray.logicalSize++;
+            arena->explosionArray.explosions[arena->explosionArray.size - 1] = (Explosion){(Rectangle){x, y, width, height}, 0, 0};
 
             // Delete bullet
-            arena->bulletArray.bullets[i] = arena->bulletArray.bullets[arena->bulletArray.logicalSize - 1];
-            arena->bulletArray.logicalSize--;
+            arena->bulletArray.bullets[i] = arena->bulletArray.bullets[arena->bulletArray.size - 1];
+            arena->bulletArray.size--;
+            arena->bulletArray.bullets = realloc(arena->bulletArray.bullets, sizeof(Bullet) * (arena->bulletArray.size));
             i--;
 
             // Play explosion sound

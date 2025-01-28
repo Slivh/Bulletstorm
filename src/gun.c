@@ -136,19 +136,17 @@ void ShootGuns(GunArray *gunArray, BulletArray *bulletArray)
         if (gunArray->guns[i].timeSinceLastShot >= gunArray->guns[i].timeBetweenShot)
         {
 
-            // realloc array if needed
-            if (bulletArray->size == bulletArray->logicalSize)
-            {
-                bulletArray->bullets = realloc(bulletArray->bullets, sizeof(Bullet) * (bulletArray->size + 1));
-                bulletArray->size++;
-            }
+            // realloc more memory for new bullet
+            bulletArray->size++;
+            bulletArray->bullets = realloc(bulletArray->bullets, sizeof(Bullet) * bulletArray->size);
 
+            // Get bullet hitbox
             int bulletX = gunArray->guns[i].x;
             int bulletY = gunArray->guns[i].y;
             Rectangle bulletHitbox = {bulletX - bulletArray->bulletSize.x / 2, bulletY - bulletArray->bulletSize.y / 2, bulletArray->bulletSize.x, bulletArray->bulletSize.y};
-
+            
+            // Get bullet angle
             float bulletAngle = 0;
-
             switch (gunArray->guns[i].side)
             {
             case RIGHT:
@@ -161,7 +159,6 @@ void ShootGuns(GunArray *gunArray, BulletArray *bulletArray)
                 bulletAngle = 270;
                 break;
             }
-
             bulletAngle += GetRandomValue(-gunArray->gunFireAngleDeviation, gunArray->gunFireAngleDeviation);
 
             Vector2 bulletDirection = {1, 0};
@@ -171,9 +168,7 @@ void ShootGuns(GunArray *gunArray, BulletArray *bulletArray)
             bulletDirection = Vector2Rotate(bulletDirection, bulletAngleRadians);
             bulletDirection = Vector2Scale(bulletDirection, bulletArray->bulletSpeed);
 
-            bulletArray->bullets[bulletArray->logicalSize] = (Bullet){bulletHitbox, bulletDirection, bulletAngleRadians, false};
-
-            bulletArray->logicalSize++;
+            bulletArray->bullets[bulletArray->size - 1] = (Bullet){bulletHitbox, bulletDirection, bulletAngleRadians, false};
 
             gunArray->guns[i].timeSinceLastShot = 0.0f;
 

@@ -18,7 +18,6 @@ typedef struct BulletArray
     float bulletSpeed;
     Bullet *bullets;
     int size;
-    int logicalSize;
 } BulletArray;
 
 void UpdateBullets(BulletArray *bulletArray, Rectangle arenaCenter);
