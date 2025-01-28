@@ -33,8 +33,8 @@ Le  but est de ne pas se faire toucher par les lasers
 - Scoreboard
 
 ## Credits
-Player texture: https://axulart.itch.io/small-8-direction-characters
-Explosion texture: https://ansimuz.itch.io/explosion-animations-pack
+ - Player texture: https://axulart.itch.io/small-8-direction-characters
+ - Explosion texture: https://ansimuz.itch.io/explosion-animations-pack
 
 ## License
 
@@ -42,5 +42,5 @@ This game's source code is licensed under the GNU General Public License (GPL), 
 
 ## Copyright
 
-Copyright (c) 2025 Slivh [@Slivh](https://github.com/Slivh)
+Copyright (c) 2025 Simon Gascon [@Slivh](https://github.com/Slivh)
 
