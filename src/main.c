@@ -29,7 +29,7 @@ int main()
     InitializeMainMenu(&game);
 
     if (setjmp(buf))
-        CloseWindow();
+        goto closeWindow;
 
     while (!WindowShouldClose())
     {
@@ -38,6 +38,7 @@ int main()
         DrawGame(&game);
     }
 
+    closeWindow:
     CloseWindow();
 
     return 0;
