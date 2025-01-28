@@ -40,4 +40,4 @@ void DrawBullets(BulletArray *bulletArray)
             WHITE
         );
     }
-}
+}         

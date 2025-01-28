@@ -103,7 +103,7 @@ void CreateLevel(int levelNumber)
     level.arena.gunArray.gunFireAngleDeviation = 40;
     level.arena.gunArray.animationSpeed = 0.05f;
     strcpy(level.assets.gunTexturePath, "assets/textures/arena/guns/drone.png");
-    strcpy(level.assets.firingSoundPath, "assets/audio/sound/pew.wav");
+    strcpy(level.assets.firingSoundPath, "assets/audio/sound/pew.mp3");
 
     // Bullet properties
     level.arena.bulletArray.bulletSize = (Vector2){0.025f, 0.01};
@@ -151,7 +151,7 @@ void CreateLevel(int levelNumber)
             break;
     }
     strcpy(level.assets.playerTexturePath, TextFormat("assets/textures/player/%s.png", color));
-    strcpy(level.assets.deathSoundPath, "assets/audio/sound/gameover.wav");
+    strcpy(level.assets.deathSoundPath, "assets/audio/sound/gameover.mp3");
 
     strcpy(level.assets.heartFullTexturePath, "assets/textures/player/heart/heart_full.png");
     strcpy(level.assets.heartEmptyTexturePath, "assets/textures/player/heart/heart_empty.png");
@@ -160,8 +160,8 @@ void CreateLevel(int levelNumber)
     if (music ==  0)
         music = 1;
 
-    strcpy(level.assets.levelMusicPath, TextFormat("assets/audio/music/%d.wav", music));
-    strcpy(level.assets.deathScreenMusicPath, "assets/audio/music/ending.wav");
+    strcpy(level.assets.levelMusicPath, TextFormat("assets/audio/music/%d.mp3", music));
+    strcpy(level.assets.deathScreenMusicPath, "assets/audio/music/ending.mp3");
 
     // Save struct to file
     SaveLevel(levelNumber, &level);

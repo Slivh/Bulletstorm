@@ -25,7 +25,7 @@ void LoadLevelAssets(Level *level)
 void LoadGameAssets(Game *game)
 {
     gameFont = LoadFont("assets/fonts/alagard.png");
-    game->mainMenu.music = LoadMusicStream("assets/audio/music/main_menu.wav");
+    game->mainMenu.music = LoadMusicStream("assets/audio/music/main_menu.mp3");
 }
 
 void UnloadLevelAssets(Level *level)
